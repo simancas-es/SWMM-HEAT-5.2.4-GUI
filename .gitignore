@@ -1,0 +1,13 @@
+build.lnk
+Components/win32
+Components/win64
+Components/__history
+Components/__recovery
+/Epaswmm5/__history
+/Epaswmm5/__recovery
+*.dcu
+Epaswmm5.7z
+Epaswmm5/Epaswmm5.identcache
+Epaswmm5/Epaswmm5_project.tvsconfig
+*.res
+*.identcache
