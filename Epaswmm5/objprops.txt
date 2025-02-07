@@ -1,4 +1,4 @@
-{-------------------------------------------------------------------}
+﻿{-------------------------------------------------------------------}
 {                    Unit:    Objprops.txt                          }
 {                    Project: EPASWMM                               }
 {                    Version: 5.2                                   }
@@ -21,7 +21,7 @@ const
      'Tidal Curve', 'Weir Curve', 'Time Series', 'Time Pattern', 'Transect',
      'Unit Hydrograph', 'Pollutant', 'Land Use', 'Aquifer',
      'Control Rule', 'Climatology', 'Snow Pack', 'LID Control',
-     'Street Section', 'Inlet');
+     'Street Section', 'Inlet', 'Water Temperature');
 
 //---------------------------
 // Labels for Project options
@@ -74,7 +74,18 @@ const
      'SYS_FLOW_TOL',
      'LAT_FLOW_TOL',
      'MINIMUM_STEP',
-     'THREADS');
+     'THREADS',
+
+     'TEMP_MODEL',
+     'DENSITY',
+     'SPEC_HEAT_CAPACITY',
+     'HUMIDITY',
+     'EXT_UNIT',
+     'GLOBTPAT',
+     'ASCII_OUT'
+
+
+     );
 
 //-----------------------------
 // Raingage data source options
@@ -433,7 +444,7 @@ const
       ('','')
     );
 
-  DefConduit: array [0..25] of String =
+  DefConduit: array [0..32] of String =
     ('',         //0 - ID
      '',         //1 - Start node
      '',         //2 - End node
@@ -459,7 +470,15 @@ const
      '0',        //22 - Right Slope
      '1',        //23 - Barrels
      '',         //24 - Transect ID
-     '');        //25 - Inlet Params.
+     '',         //25 - Inlet Params.
+     '0.1',      //26 - Thickness                 SWMM-HEAT
+     '2.3',      //27 - Pipe Conductivity         SWMM-HEAT
+     '0.7',      //28 - Soil Conductivity         SWMM-HEAT
+     '350',      //29 - Soil density              SWMM-HEAT
+     '350',      //30 - Soil heat capacity        SWMM-HEAT
+     'DEFAULT_ATP_CELSIUS',         //31 - Air Temperature Pattern  SWMM-HEAT
+     'DEFAULT_STP_CELSIUS');        //32 - Soil Temperature Pattern SWMM-HEAT
+
 
   ConduitPropUnits: array [0..19, 0..1] of String =
     ( ('',''), ('',''), ('',''), ('',''), ('',''), ('',''),
@@ -605,7 +624,22 @@ const
      '5',            // 39 - System Flow Tolerance
      '5',            // 40 - Lateral Flow Tolerance
      '0.5',          // 41 - Minimum Routing Step
-     '1');           // 42 - Number of Threads
+     '1',            // 42 - Number of Threads
+
+     '1',            // 43 - Temperature model activated, needs patterns   SWMM-HEAT
+     '1000',         // 44 - Density of the water medium (kg/m3)           SWMM-HEAT
+     '4190',         // 45 - Specific heat capacity of water medium (J·kg^(−1)·K^(−1))  SWMM-HEAT
+     '0.75',         // 46 - Humidity fraction in sewer                    SWMM-HEAT
+     'T',            // 47 - Use of temperature relate units               SWMM-HEAT
+     '1',            // 48 - Same soil and air Temp pattern in system      SWMM-HEAT
+     '1');           // 49 - Creates an ASCII output file                  SWMM-HEAT
+
+
+
+
+
+
+
 
   DefPollutant: array[0..8] of String =
     ('MG/L',         // 0 - Mass units
@@ -617,6 +651,7 @@ const
      'NO',           // 6 - Snow only buildup
      '',             // 7 - Co-pollutant
      '');            // 8 - Co-pollut. fraction
+
 
   DefStreet: array[0..9] of String =
     ('30',           // 0 - crown width

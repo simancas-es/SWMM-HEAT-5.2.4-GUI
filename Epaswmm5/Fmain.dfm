@@ -38,7 +38,6 @@ object MainForm: TMainForm
     0000800000008000000080000000800000008000000080000000FFFFFFFF}
   KeyPreview = True
   Menu = MainMenu1
-  OldCreateOrder = False
   WindowMenu = MnuWindow
   OnClose = FormClose
   OnCloseQuery = FormCloseQuery
@@ -47,7 +46,6 @@ object MainForm: TMainForm
   OnKeyDown = FormKeyDown
   OnResize = FormResize
   OnShow = FormShow
-  PixelsPerInch = 96
   TextHeight = 15
   object Splitter1: TSplitter
     Left = 173
@@ -395,75 +393,79 @@ object MainForm: TMainForm
         OnClick = ObjectTreeViewClick
         OnKeyPress = ObjectTreeViewKeyPress
         Items.NodeData = {
-          030A000000340000000000000000000000FFFFFFFFFFFFFFFF00000000000000
-          0000000000010B5400690074006C0065002F004E006F007400650073002C0000
-          000100000001000000FFFFFFFFFFFFFFFF00000000000000000000000001074F
-          007000740069006F006E007300340000000200000002000000FFFFFFFFFFFFFF
-          FF000000000000000000000000010B43006C0069006D00610074006F006C006F
-          0067007900300000000300000003000000FFFFFFFFFFFFFFFF00000000000000
-          0006000000010948007900640072006F006C006F0067007900320000000A0000
-          000A000000FFFFFFFFFFFFFFFF000000000000000000000000010A5200610069
-          006E00200047006100670065007300380000000B0000000B000000FFFFFFFFFF
-          FFFFFF000000000000000000000000010D530075006200630061007400630068
-          006D0065006E00740073002E0000001500000016000000FFFFFFFFFFFFFFFF00
-          0000000000000000000000010841007100750069006600650072007300320000
-          001500000016000000FFFFFFFFFFFFFFFF000000000000000000000000010A53
-          006E006F00770020005000610063006B0073003E0000001500000016000000FF
-          FFFFFFFFFFFFFF000000000000000000000000011055006E0069007400200048
-          007900640072006F006700720061007000680073003600000015000000160000
-          00FFFFFFFFFFFFFFFF000000000000000000000000010C4C0049004400200043
-          006F006E00740072006F006C007300320000000400000004000000FFFFFFFFFF
-          FFFFFF000000000000000006000000010A4800790064007200610075006C0069
-          0063007300280000001500000016000000FFFFFFFFFFFFFFFF00000000000000
-          000400000001054E006F00640065007300300000000C0000000C000000FFFFFF
-          FFFFFFFFFF00000000000000000000000001094A0075006E006300740069006F
-          006E0073002E0000000D0000000D000000FFFFFFFFFFFFFFFF00000000000000
-          000000000001084F0075007400660061006C006C0073002E0000000E0000000E
-          000000FFFFFFFFFFFFFFFF000000000000000000000000010844006900760069
-          006400650072007300380000000F0000000F000000FFFFFFFFFFFFFFFF000000
-          000000000000000000010D530074006F007200610067006500200055006E0069
-          0074007300280000001500000016000000FFFFFFFFFFFFFFFF00000000000000
-          000500000001054C0069006E006B0073002E0000001000000010000000FFFFFF
-          FFFFFFFFFF000000000000000000000000010843006F006E0064007500690074
-          007300280000001100000011000000FFFFFFFFFFFFFFFF000000000000000000
-          0000000105500075006D00700073002E0000001200000012000000FFFFFFFFFF
-          FFFFFF00000000000000000000000001084F0072006900660069006300650073
-          00280000001300000013000000FFFFFFFFFFFFFFFF0000000000000000000000
-          000105570065006900720073002C0000001400000014000000FFFFFFFFFFFFFF
-          FF00000000000000000000000001074F00750074006C006500740073002C0000
-          001500000016000000FFFFFFFFFFFFFFFF000000000000000000000000010753
-          007400720065006500740073002A000000000000001500000016000000FFFFFF
-          FF000000000000000000000000010649006E006C006500740073003000000015
-          00000016000000FFFFFFFFFFFFFFFF0000000000000000000000000109540072
-          0061006E00730065006300740073002E0000001500000016000000FFFFFFFFFF
-          FFFFFF000000000000000000000000010843006F006E00740072006F006C0073
-          002C0000000500000005000000FFFFFFFFFFFFFFFF0000000000000000020000
-          0001075100750061006C00690074007900320000001500000016000000FFFFFF
-          FFFFFFFFFF000000000000000000000000010A50006F006C006C007500740061
-          006E0074007300300000001500000016000000FFFFFFFFFFFFFFFF0000000000
-          0000000000000001094C0061006E006400200055007300650073002A00000006
-          00000006000000FFFFFFFFFFFFFFFF0000000000000000080000000106430075
-          0072007600650073003A0000001500000016000000FFFFFFFFFFFFFFFF000000
-          000000000000000000010E43006F006E00740072006F006C0020004300750072
-          007600650073003E0000001500000016000000FFFFFFFFFFFFFFFF0000000000
-          00000000000000011044006900760065007200730069006F006E002000430075
-          007200760065007300340000001500000016000000FFFFFFFFFFFFFFFF000000
-          000000000000000000010B500075006D00700020004300750072007600650073
-          00380000001500000016000000FFFFFFFFFFFFFFFF0000000000000000000000
-          00010D52006100740069006E0067002000430075007200760065007300360000
-          001500000016000000FFFFFFFFFFFFFFFF000000000000000000000000010C53
-          00680061007000650020004300750072007600650073003A0000001500000016
-          000000FFFFFFFFFFFFFFFF000000000000000000000000010E530074006F0072
-          0061006700650020004300750072007600650073003600000015000000160000
-          00FFFFFFFFFFFFFFFF000000000000000000000000010C54006900640061006C
-          002000430075007200760065007300340000001500000016000000FFFFFFFFFF
-          FFFFFF000000000000000000000000010B570065006900720020004300750072
-          00760065007300340000000700000007000000FFFFFFFFFFFFFFFF0000000000
-          00000000000000010B540069006D006500200053006500720069006500730038
-          0000000800000008000000FFFFFFFFFFFFFFFF00000000000000000000000001
-          0D540069006D00650020005000610074007400650072006E0073003200000009
-          00000009000000FFFFFFFFFFFFFFFF000000000000000000000000010A4D0061
-          00700020004C006100620065006C007300}
+          070A00000009540054007200650065004E006F00640065003500000000000000
+          00000000FFFFFFFFFFFFFFFF00000000000000000000000000010B5400690074
+          006C0065002F004E006F0074006500730000002D0000000100000001000000FF
+          FFFFFFFFFFFFFF0000000000000000000000000001074F007000740069006F00
+          6E0073000000350000000200000002000000FFFFFFFFFFFFFFFF000000000000
+          00000000000000010B43006C0069006D00610074006F006C006F006700790000
+          00310000000300000003000000FFFFFFFFFFFFFFFF0000000000000000000600
+          0000010948007900640072006F006C006F00670079000000330000000A000000
+          0A000000FFFFFFFFFFFFFFFF00000000000000000000000000010A5200610069
+          006E002000470061006700650073000000390000000B0000000B000000FFFFFF
+          FFFFFFFFFF00000000000000000000000000010D530075006200630061007400
+          630068006D0065006E007400730000002F0000001500000016000000FFFFFFFF
+          FFFFFFFF00000000000000000000000000010841007100750069006600650072
+          0073000000330000001500000016000000FFFFFFFFFFFFFFFF00000000000000
+          000000000000010A53006E006F00770020005000610063006B00730000003F00
+          00001500000016000000FFFFFFFFFFFFFFFF0000000000000000000000000001
+          1055006E0069007400200048007900640072006F006700720061007000680073
+          000000370000001500000016000000FFFFFFFFFFFFFFFF000000000000000000
+          00000000010C4C0049004400200043006F006E00740072006F006C0073000000
+          330000000400000004000000FFFFFFFFFFFFFFFF000000000000000000060000
+          00010A4800790064007200610075006C00690063007300000029000000150000
+          0016000000FFFFFFFFFFFFFFFF0000000000000000000400000001054E006F00
+          6400650073000000310000000C0000000C000000FFFFFFFFFFFFFFFF00000000
+          00000000000000000001094A0075006E006300740069006F006E00730000002F
+          0000000D0000000D000000FFFFFFFFFFFFFFFF00000000000000000000000000
+          01084F0075007400660061006C006C00730000002F0000000E0000000E000000
+          FFFFFFFFFFFFFFFF000000000000000000000000000108440069007600690064
+          006500720073000000390000000F0000000F000000FFFFFFFFFFFFFFFF000000
+          00000000000000000000010D530074006F007200610067006500200055006E00
+          6900740073000000290000001500000016000000FFFFFFFFFFFFFFFF00000000
+          00000000000500000001054C0069006E006B00730000002F0000001000000010
+          000000FFFFFFFFFFFFFFFF00000000000000000000000000010843006F006E00
+          640075006900740073000000290000001100000011000000FFFFFFFFFFFFFFFF
+          000000000000000000000000000105500075006D007000730000002F00000012
+          00000012000000FFFFFFFFFFFFFFFF0000000000000000000000000001084F00
+          72006900660069006300650073000000290000001300000013000000FFFFFFFF
+          FFFFFFFF0000000000000000000000000001055700650069007200730000002D
+          0000001400000014000000FFFFFFFFFFFFFFFF00000000000000000000000000
+          01074F00750074006C0065007400730000002D0000001500000016000000FFFF
+          FFFFFFFFFFFF0000000000000000000000000001075300740072006500650074
+          00730000002B000000000000001500000016000000FFFFFFFF00000000000000
+          000000000000010649006E006C00650074007300000031000000150000001600
+          0000FFFFFFFFFFFFFFFF0000000000000000000000000001095400720061006E
+          007300650063007400730000002F0000001500000016000000FFFFFFFFFFFFFF
+          FF00000000000000000000000000010843006F006E00740072006F006C007300
+          00002D0000000500000005000000FFFFFFFFFFFFFFFF00000000000000000002
+          00000001075100750061006C0069007400790000003300000015000000160000
+          00FFFFFFFFFFFFFFFF00000000000000000000000000010A50006F006C006C00
+          7500740061006E00740073000000310000001500000016000000FFFFFFFFFFFF
+          FFFF0000000000000000000000000001094C0061006E00640020005500730065
+          00730000002B0000000600000006000000FFFFFFFFFFFFFFFF00000000000000
+          000008000000010643007500720076006500730000003B000000150000001600
+          0000FFFFFFFFFFFFFFFF00000000000000000000000000010E43006F006E0074
+          0072006F006C00200043007500720076006500730000003F0000001500000016
+          000000FFFFFFFFFFFFFFFF000000000000000000000000000110440069007600
+          65007200730069006F006E002000430075007200760065007300000035000000
+          1500000016000000FFFFFFFFFFFFFFFF00000000000000000000000000010B50
+          0075006D00700020004300750072007600650073000000390000001500000016
+          000000FFFFFFFFFFFFFFFF00000000000000000000000000010D520061007400
+          69006E0067002000430075007200760065007300000037000000150000001600
+          0000FFFFFFFFFFFFFFFF00000000000000000000000000010C53006800610070
+          006500200043007500720076006500730000003B0000001500000016000000FF
+          FFFFFFFFFFFFFF00000000000000000000000000010E530074006F0072006100
+          6700650020004300750072007600650073000000370000001500000016000000
+          FFFFFFFFFFFFFFFF00000000000000000000000000010C54006900640061006C
+          0020004300750072007600650073000000350000001500000016000000FFFFFF
+          FFFFFFFFFF00000000000000000000000000010B570065006900720020004300
+          750072007600650073000000350000000700000007000000FFFFFFFFFFFFFFFF
+          00000000000000000000000000010B540069006D006500200053006500720069
+          00650073000000390000000800000008000000FFFFFFFFFFFFFFFF0000000000
+          0000000000000000010D540069006D0065002000500061007400740065007200
+          6E0073000000330000000900000009000000FFFFFFFFFFFFFFFF000000000000
+          00000000000000010A4D006100700020004C006100620065006C007300}
       end
     end
     object BrowserMapPage: TTabSheet
@@ -582,14 +584,14 @@ object MainForm: TMainForm
           object TimeLabel: TLabel
             Left = 8
             Top = 96
-            Width = 63
+            Width = 64
             Height = 15
             Caption = 'Time of Day'
           end
           object ElapsedTimeLabel: TLabel
             Left = 8
             Top = 167
-            Width = 69
+            Width = 70
             Height = 15
             Caption = 'Elapsed Time'
           end
@@ -2052,235 +2054,195 @@ object MainForm: TMainForm
   object BtnImageList: TVirtualImageList
     AutoFill = True
     DisabledOpacity = 100
-    DisabledGrayscale = False
-    DisabledSuffix = '_Disabled'
     Images = <
       item
         CollectionIndex = 0
         CollectionName = 'StdToolbar\Item1'
-        Disabled = False
         Name = 'StdToolbar\Item1'
       end
       item
         CollectionIndex = 1
         CollectionName = 'StdToolbar\Item2'
-        Disabled = False
         Name = 'StdToolbar\Item2'
       end
       item
         CollectionIndex = 2
         CollectionName = 'StdToolbar\Item3'
-        Disabled = False
         Name = 'StdToolbar\Item3'
       end
       item
         CollectionIndex = 3
         CollectionName = 'StdToolbar\Item4'
-        Disabled = False
         Name = 'StdToolbar\Item4'
       end
       item
         CollectionIndex = 4
         CollectionName = 'StdToolbar\Item5'
-        Disabled = False
         Name = 'StdToolbar\Item5'
       end
       item
         CollectionIndex = 5
         CollectionName = 'StdToolbar\Item6'
-        Disabled = False
         Name = 'StdToolbar\Item6'
       end
       item
         CollectionIndex = 6
         CollectionName = 'StdToolbar\Item7'
-        Disabled = False
         Name = 'StdToolbar\Item7'
       end
       item
         CollectionIndex = 7
         CollectionName = 'StdToolbar\Item8'
-        Disabled = False
         Name = 'StdToolbar\Item8'
       end
       item
         CollectionIndex = 8
         CollectionName = 'StdToolbar\Item9'
-        Disabled = False
         Name = 'StdToolbar\Item9'
       end
       item
         CollectionIndex = 9
         CollectionName = 'StdToolbar\Item10'
-        Disabled = False
         Name = 'StdToolbar\Item10'
       end
       item
         CollectionIndex = 10
         CollectionName = 'StdToolbar\Item11'
-        Disabled = False
         Name = 'StdToolbar\Item11'
       end
       item
         CollectionIndex = 11
         CollectionName = 'StdToolbar\Item12'
-        Disabled = False
         Name = 'StdToolbar\Item12'
       end
       item
         CollectionIndex = 12
         CollectionName = 'StdToolbar\Item13'
-        Disabled = False
         Name = 'StdToolbar\Item13'
       end
       item
         CollectionIndex = 13
         CollectionName = 'StdToolbar\Item14'
-        Disabled = False
         Name = 'StdToolbar\Item14'
       end
       item
         CollectionIndex = 14
         CollectionName = 'StdToolbar\Item15'
-        Disabled = False
         Name = 'StdToolbar\Item15'
       end
       item
         CollectionIndex = 15
         CollectionName = 'StdToolbar\Item16'
-        Disabled = False
         Name = 'StdToolbar\Item16'
       end
       item
         CollectionIndex = 16
         CollectionName = 'StdToolbar\Item17'
-        Disabled = False
         Name = 'StdToolbar\Item17'
       end
       item
         CollectionIndex = 17
         CollectionName = 'StdToolbar\Item18'
-        Disabled = False
         Name = 'StdToolbar\Item18'
       end
       item
         CollectionIndex = 18
         CollectionName = 'MapToolbar\Item19'
-        Disabled = False
         Name = 'MapToolbar\Item19'
       end
       item
         CollectionIndex = 19
         CollectionName = 'MapToolbar\Item20'
-        Disabled = False
         Name = 'MapToolbar\Item20'
       end
       item
         CollectionIndex = 20
         CollectionName = 'MapToolbar\Item21'
-        Disabled = False
         Name = 'MapToolbar\Item21'
       end
       item
         CollectionIndex = 21
         CollectionName = 'MapToolbar\Item22'
-        Disabled = False
         Name = 'MapToolbar\Item22'
       end
       item
         CollectionIndex = 22
         CollectionName = 'MapToolbar\Item23'
-        Disabled = False
         Name = 'MapToolbar\Item23'
       end
       item
         CollectionIndex = 23
         CollectionName = 'MapToolbar\Item24'
-        Disabled = False
         Name = 'MapToolbar\Item24'
       end
       item
         CollectionIndex = 24
         CollectionName = 'MapToolbar\Item25'
-        Disabled = False
         Name = 'MapToolbar\Item25'
       end
       item
         CollectionIndex = 25
         CollectionName = 'MapToolbar\Item26'
-        Disabled = False
         Name = 'MapToolbar\Item26'
       end
       item
         CollectionIndex = 26
         CollectionName = 'ObjectToolbar\Item27'
-        Disabled = False
         Name = 'ObjectToolbar\Item27'
       end
       item
         CollectionIndex = 27
         CollectionName = 'ObjectToolbar\Item28'
-        Disabled = False
         Name = 'ObjectToolbar\Item28'
       end
       item
         CollectionIndex = 28
         CollectionName = 'ObjectToolbar\Item29'
-        Disabled = False
         Name = 'ObjectToolbar\Item29'
       end
       item
         CollectionIndex = 29
         CollectionName = 'ObjectToolbar\Item30'
-        Disabled = False
         Name = 'ObjectToolbar\Item30'
       end
       item
         CollectionIndex = 30
         CollectionName = 'ObjectToolbar\Item31'
-        Disabled = False
         Name = 'ObjectToolbar\Item31'
       end
       item
         CollectionIndex = 31
         CollectionName = 'ObjectToolbar\Item32'
-        Disabled = False
         Name = 'ObjectToolbar\Item32'
       end
       item
         CollectionIndex = 32
         CollectionName = 'ObjectToolbar\Item33'
-        Disabled = False
         Name = 'ObjectToolbar\Item33'
       end
       item
         CollectionIndex = 33
         CollectionName = 'ObjectToolbar\Item34'
-        Disabled = False
         Name = 'ObjectToolbar\Item34'
       end
       item
         CollectionIndex = 34
         CollectionName = 'ObjectToolbar\Item35'
-        Disabled = False
         Name = 'ObjectToolbar\Item35'
       end
       item
         CollectionIndex = 35
         CollectionName = 'ObjectToolbar\Item36'
-        Disabled = False
         Name = 'ObjectToolbar\Item36'
       end
       item
         CollectionIndex = 36
         CollectionName = 'ObjectToolbar\Item37'
-        Disabled = False
         Name = 'ObjectToolbar\Item37'
       end
       item
         CollectionIndex = 37
         CollectionName = 'ObjectToolbar\Item38'
-        Disabled = False
         Name = 'ObjectToolbar\Item38'
       end>
     ImageCollection = BtnImageCollection
@@ -2564,97 +2526,80 @@ object MainForm: TMainForm
   object ProjectImageList: TVirtualImageList
     AutoFill = True
     DisabledOpacity = 100
-    DisabledGrayscale = False
-    DisabledSuffix = '_Disabled'
     Images = <
       item
         CollectionIndex = 0
         CollectionName = 'green_plus'
-        Disabled = False
         Name = 'green_plus'
       end
       item
         CollectionIndex = 1
         CollectionName = 'red_minus'
-        Disabled = False
         Name = 'red_minus'
       end
       item
         CollectionIndex = 2
         CollectionName = 'edit'
-        Disabled = False
         Name = 'edit'
       end
       item
         CollectionIndex = 3
         CollectionName = 'uparrow1'
-        Disabled = False
         Name = 'uparrow1'
       end
       item
         CollectionIndex = 4
         CollectionName = 'dnarrow1'
-        Disabled = False
         Name = 'dnarrow1'
       end
       item
         CollectionIndex = 5
         CollectionName = 'sort'
-        Disabled = False
         Name = 'sort'
       end
       item
         CollectionIndex = 6
         CollectionName = 'lock_open'
-        Disabled = False
         Name = 'lock_open'
       end
       item
         CollectionIndex = 7
         CollectionName = 'lock_closed'
-        Disabled = False
         Name = 'lock_closed'
       end
       item
         CollectionIndex = 8
         CollectionName = 'raingage'
-        Disabled = False
         Name = 'raingage'
       end
       item
         CollectionIndex = 9
         CollectionName = 'blue_plus'
-        Disabled = False
         Name = 'blue_plus'
       end
       item
         CollectionIndex = 10
         CollectionName = 'blue_minus'
-        Disabled = False
         Name = 'blue_minus'
       end
       item
         CollectionIndex = 11
         CollectionName = 'uparrow2'
-        Disabled = False
         Name = 'uparrow2'
       end
       item
         CollectionIndex = 12
         CollectionName = 'dnarrow2'
-        Disabled = False
         Name = 'dnarrow2'
       end
       item
         CollectionIndex = 13
         CollectionName = 'Delete'
-        Disabled = False
         Name = 'Delete'
       end
       item
         CollectionIndex = 14
         CollectionName = 'browse'
-        Disabled = False
         Name = 'browse'
       end>
     ImageCollection = ProjectImageCollection
@@ -2781,31 +2726,25 @@ object MainForm: TMainForm
   end
   object RunImageList: TVirtualImageList
     AutoFill = True
-    DisabledGrayscale = False
-    DisabledSuffix = '_Disabled'
     Images = <
       item
         CollectionIndex = 0
         CollectionName = 'Item1'
-        Disabled = False
         Name = 'Item1'
       end
       item
         CollectionIndex = 1
         CollectionName = 'Item2'
-        Disabled = False
         Name = 'Item2'
       end
       item
         CollectionIndex = 2
         CollectionName = 'Item3'
-        Disabled = False
         Name = 'Item3'
       end
       item
         CollectionIndex = 3
         CollectionName = 'Item4'
-        Disabled = False
         Name = 'Item4'
       end>
     ImageCollection = RunImageCollection
@@ -2879,31 +2818,25 @@ object MainForm: TMainForm
   end
   object AnimatorImageList: TVirtualImageList
     AutoFill = True
-    DisabledGrayscale = False
-    DisabledSuffix = '_Disabled'
     Images = <
       item
         CollectionIndex = 0
         CollectionName = 'vcrfirst'
-        Disabled = False
         Name = 'vcrfirst'
       end
       item
         CollectionIndex = 1
         CollectionName = 'vcrback'
-        Disabled = False
         Name = 'vcrback'
       end
       item
         CollectionIndex = 2
         CollectionName = 'vcrstop'
-        Disabled = False
         Name = 'vcrstop'
       end
       item
         CollectionIndex = 3
         CollectionName = 'vcrfwd'
-        Disabled = False
         Name = 'vcrfwd'
       end>
     ImageCollection = AnimatorImageCollection
@@ -2912,8 +2845,6 @@ object MainForm: TMainForm
   end
   object ProjectImageList1: TVirtualImageList
     DisabledOpacity = 100
-    DisabledGrayscale = False
-    DisabledSuffix = '_Disabled'
     Images = <
       item
         CollectionIndex = 0
@@ -3011,8 +2942,6 @@ object MainForm: TMainForm
   end
   object BtnImageList1: TVirtualImageList
     DisabledOpacity = 100
-    DisabledGrayscale = False
-    DisabledSuffix = '_Disabled'
     Images = <
       item
         CollectionIndex = 0
@@ -3247,8 +3176,6 @@ object MainForm: TMainForm
     Top = 128
   end
   object AnimatorImageList1: TVirtualImageList
-    DisabledGrayscale = False
-    DisabledSuffix = '_Disabled'
     Images = <
       item
         CollectionIndex = 0

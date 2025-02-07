@@ -22,17 +22,18 @@ const
   MAXGAGEPROPS     = 15;       //Max. index for raingage data array
   MAXSUBCATCHPROPS = 27;       //Max. index for subcatch data array
   MAXNODEPROPS     = 21;       //Max. index for node data array
-  MAXLINKPROPS     = 24;       //Max. index for link data array
+  MAXLINKPROPS     = 32;       //Max. index for link data array
   MAXINFILPROPS    = 5;        //Max. index for infil. data array
   MAXPOLLUTPROPS   = 9;        //Max. index for pollutant data array
+  MAXWTEMPPROPS    = 8;        //Max. index for wtemperature data array
   MAXLANDUSEPROPS  = 3;        //Max. index for landuse data array
   MAXAQUIFERPROPS  = 12;       //Max. index for aquifer data array
   MAXBUPROPS       = 4;        //Max. index for pollutant buildup data array
   MAXWOPROPS       = 4;        //Max. index for pollutant washoff data array
-  MAXOPTIONS       = 42;       //Max. index for options array
-  MAXPROPS         = 42;       //Max. index of all data arrays; must be as
+  MAXOPTIONS       = 49;       //Max. index for options array
+  MAXPROPS         = 49;       //Max. index of all data arrays; must be as
                                //large as largest of all preceeding constants
-  MAXCLASS         = 34;       //Max. index for object classes
+  MAXCLASS         = 35;       //Max. index for object classes
 
 //----------------------
 // Object category codes
@@ -72,6 +73,7 @@ const
   LID            = 32;
   STREET         = 33;
   INLET          = 34;
+  WTEMPERATURE   = 35;
 
 //---------------------------
 // Climatology category codes
@@ -229,6 +231,14 @@ const
   CONDUIT_BARRELS_INDEX      = 23;
   CONDUIT_TSECT_INDEX        = 24;
   CONDUIT_SLOPE_INDEX        = 120;
+  CONDUIT_THICKNESS_INDEX    = 26;
+  CONDUIT_PIPECONDUCT_INDEX  = 27;
+  CONDUIT_SOILCONDUCT_INDEX  = 28;
+  CONDUIT_SOILDENSITY_INDEX  = 29;
+  CONDUIT_SOILHEATCAP_INDEX  = 30;
+  CONDUIT_AIRTPATTERN_INDEX  = 31;
+  CONDUIT_SOILTPATTERN_INDEX = 32;
+
 
 //--------------------
 // Pump property codes
@@ -294,6 +304,17 @@ const
   POLLUT_SNOW_INDEX     = 7;
   POLLUT_COPOLLUT_INDEX = 8;
   POLLUT_FRACTION_INDEX = 9;
+
+//-------------------------
+// Wtemperature property codes
+//-------------------------
+  WTEMP_UNITS_INDEX     = 0;
+  WTEMP_CRAIN_INDEX     = 1;
+  WTEMP_CGROUNDW_INDEX  = 2;
+  WTEMP_CRDII_INDEX     = 3;
+  WTEMP_KDECAY_INDEX    = 4;
+  WTEMP_CDWF_INDEX      = 5;
+  WTEMP_CINIT_INDEX     = 6;
 
 //------------------------
 // Land use property codes
@@ -440,6 +461,14 @@ const
   MIN_ROUTE_STEP_INDEX    = 41;
   NUM_THREADS_INDEX       = 42;
 
+  TEMP_MODEL_INDEX        = 43;
+  DENSITY_INDEX           = 44;
+  SPEC_HEAT_CAPACITY_INDEX= 45;
+  HUMIDITY_INDEX          = 46;
+  EXT_UNIT_INDEX          = 47;
+  GLOBTPAT_INDEX          = 48;
+  ASCII_OUT_INDEX         = 49;
+
  
 //---------------------
 // Interface file codes
@@ -567,6 +596,13 @@ type
 //----------------
   TPollutant = class(TObject)
     Data : array [0..MAXPOLLUTPROPS] of String;
+  end;
+
+//----------------
+// WTemperature class
+//----------------
+  TWTemperature = class(TObject)
+    Data : array [0..MAXWTEMPPROPS] of String;
   end;
 
 //---------------
@@ -762,6 +798,7 @@ type
     ProfileLinks : TStringList;       // Link sequences of saved profile plots
     PollutNames  : TStringList;       // Pollutant names
     PollutUnits  : TStringList;       // Pollutant units
+    WTempNames   : TStringList;       // SWMM-HEAT WTemperature item
     ControlRules : TStringList;       // Pump/regulator controls
     IfaceFiles   : TStringList;       // Interface file specs
     Events       : TStringList;       // Routing event periods
@@ -851,6 +888,7 @@ begin
   ProfileNames := TStringlist.Create;
   ProfileLinks := TStringlist.Create;
   PollutNames  := TStringlist.Create;
+  WTempNames   := TStringlist.Create;
   PollutUnits  := TStringlist.Create;
   ControlRules := TStringlist.Create;
   IfaceFiles   := TStringlist.Create;
@@ -874,6 +912,7 @@ begin
   ProfileLinks.Free;
   PollutNames.Free;
   PollutUnits.Free;
+  WTempNames.Free;
   ControlRules.Free;
   IfaceFiles.Free;
   Events.Free;

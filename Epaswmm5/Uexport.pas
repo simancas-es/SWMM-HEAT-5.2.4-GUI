@@ -151,6 +151,15 @@ begin
       Line := Format('%-20s', [OptionLabels[I]]) + Tab + TmpOptions[I];
       S.Add(Line);
     end;
+    S.Add('');
+
+    // Write SWMM-HEAT temperature options
+    for I := TEMP_MODEL_INDEX to ASCII_OUT_INDEX  do
+    begin
+      if Length(TmpOptions[I]) = 0 then continue;
+      Line := Format('%-20s', [OptionLabels[I]]) + Tab + TmpOptions[I];
+      S.Add(Line);
+    end;
   end;
 end;
 
@@ -1021,10 +1030,14 @@ begin
   Line := ';;Name          ' + Tab + 'From Node       ' + Tab + 'To Node         ';
   Line := Line + Tab + 'Length    ' + Tab + 'Roughness ' + Tab + 'InOffset  ';
   Line := Line + Tab + 'OutOffset ' + Tab + 'InitFlow  ' + Tab + 'MaxFlow   ';
+  Line := Line + Tab + 'Thick     ' + Tab + 'Tcp       ' + Tab + 'Tcs       ';                      //SWMM-HEAT
+  Line := Line + Tab + 'Ds        ' + Tab + 'Cps       ' + Tab + 'Atp       '+ Tab + 'Stp       ';  //SWMM-HEAT
   S.Add(Line);
   Line := ';;--------------' + Tab + '----------------' + Tab + '----------------';
   Line := Line + Tab + '----------' + Tab + '----------' + Tab + '----------';
   Line := Line + Tab + '----------' + Tab + '----------' + Tab + '----------';
+  Line := Line + Tab + '----------' + Tab + '----------' + Tab + '----------';                     //SWMM-HEAT
+  Line := Line + Tab + '----------' + Tab + '----------' + Tab + '----------'+ Tab + '----------'; //SWMM-HEAT
   S.Add(Line);
   with Project.Lists[CONDUIT] do
     for I := 0 to Count-1 do
@@ -1040,6 +1053,14 @@ begin
       Line := Line + Tab + Format('%-10s', [L.Data[CONDUIT_OUTLET_HT_INDEX]]);
       Line := Line + Tab + Format('%-10s', [L.Data[CONDUIT_INIT_FLOW_INDEX]]);
       Line := Line + Tab + Format('%-10s', [L.Data[CONDUIT_MAX_FLOW_INDEX]]);
+      Line := Line + Tab + Format('%-10s', [L.Data[CONDUIT_THICKNESS_INDEX]]);   //SWMM-HEAT
+      Line := Line + Tab + Format('%-10s', [L.Data[CONDUIT_PIPECONDUCT_INDEX]]); //SWMM-HEAT
+      Line := Line + Tab + Format('%-10s', [L.Data[CONDUIT_SOILCONDUCT_INDEX]]); //SWMM-HEAT
+      Line := Line + Tab + Format('%-10s', [L.Data[CONDUIT_SOILDENSITY_INDEX]]); //SWMM-HEAT
+      Line := Line + Tab + Format('%-10s', [L.Data[CONDUIT_SOILHEATCAP_INDEX]]); //SWMM-HEAT
+      Line := Line + Tab + Format('%-10s', [L.Data[CONDUIT_AIRTPATTERN_INDEX]]); //SWMM-HEAT
+      Line := Line + Tab + Format('%-10s', [L.Data[CONDUIT_SOILTPATTERN_INDEX]]);//SWMM-HEAT
+
       S.Add(Line);
     end;
 end;
@@ -1464,6 +1485,42 @@ begin
       S.Add(Line);
     end;
 end;
+
+procedure ExportWTemperature(S: TStringlist);                                   // SWMM-HEAT
+//-----------------------------------------------------------------------------
+var
+  I      : Integer;
+  Line   : String;
+  WTemp : TWTemperature;
+begin
+  if Project.Lists[WTEMPERATURE].Count = 0 then exit;
+  S.Add('');
+  S.Add('[WTEMPERATURE]');
+  Line := ';;Name          ' + Tab + 'Units ' + Tab + 'Crain     ';
+  Line := Line + Tab + 'Cgw       ' + Tab + 'Crdii     ' + Tab + 'Kdecay    ';
+  Line := Line + Tab + 'Cdwf      ' + Tab + 'Cinit     ';
+  S.Add(Line);
+  Line := ';;--------------' + Tab + '------' + Tab + '----------';
+  Line := Line + Tab + '----------' + Tab + '----------' + Tab + '----------';
+  Line := Line + Tab + '----------' + Tab + '----------------';
+  S.Add(Line);
+  with Project.Lists[WTEMPERATURE] do
+    for I := 0 to Count-1 do
+    begin
+      WTemp := TWTemperature(Objects[I]);
+      Line := Format('%-16s',[Strings[I]]);
+      Line := Line + Tab + Format('%-6s',[WTemp.Data[WTEMP_UNITS_INDEX]]);
+      Line := Line + Tab + Format('%-10s',[WTemp.Data[WTEMP_CRAIN_INDEX]]);
+      Line := Line + Tab + Format('%-10s',[WTemp.Data[WTEMP_CGROUNDW_INDEX]]);
+      Line := Line + Tab + Format('%-10s',[WTemp.Data[WTEMP_CRDII_INDEX]]);
+      Line := Line + Tab + Format('%-10s',[WTemp.Data[WTEMP_KDECAY_INDEX]]);
+      Line := Line + Tab + Format('%-10s',[WTemp.Data[WTEMP_CDWF_INDEX]]);
+      Line := Line + Tab + Format('%-10s',[WTemp.Data[WTEMP_CINIT_INDEX]]);
+      S.Add(Line);
+    end;
+end;
+
+
 
 
 procedure ExportLanduses(S: TStringlist);
@@ -2364,6 +2421,7 @@ begin
   ExportLosses(S);
   ExportControls(S);
   ExportPollutants(S);
+  ExportWTemperature(S);
   ExportLanduses(S);
   ExportCoverages(S);
   ExportLoadings(S);

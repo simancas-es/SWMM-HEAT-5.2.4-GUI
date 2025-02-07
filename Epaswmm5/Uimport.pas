@@ -32,6 +32,7 @@ const
   DATE_ERR     = 12;
   LID_ERR      = 13;
   INLET_ERR    = 14;
+  WTEMP_ERR    = 15;
   MAX_ERRORS   = 50;
 
 type
@@ -57,7 +58,7 @@ const
   TXT_MORE_ERRORS = ' more errors found in file.';
   TXT_ERROR_REPORT = 'Error Report for File ';
 
-  SectionWords : array[0..57] of PChar =
+  SectionWords : array[0..58] of PChar =
     ('[TITLE',                    //0
      '[OPTION',                   //1
      '[RAINGAGE',                 //2
@@ -115,7 +116,8 @@ const
      '[EVENT',                    //54
      '[STREET',                   //55
      '[INLET_USAGE',              //56
-     '[INLET');                   //57
+     '[INLET',                     //57
+     '[WTEMPERATURE');            //58
 
 var
   FileType     : TFileType;
@@ -1095,6 +1097,19 @@ begin
       aLink.Data[CONDUIT_OUTLET_HT_INDEX]  := TokList[6];
       if Ntoks > 7 then aLink.Data[CONDUIT_INIT_FLOW_INDEX] := TokList[7];
       if Ntoks > 8 then aLink.Data[CONDUIT_MAX_FLOW_INDEX] := TokList[8];
+      if Ntoks > 9 then
+        begin
+          aLink.Data[CONDUIT_THICKNESS_INDEX]   := TokList[9];         //SWMM-HEAT
+          aLink.Data[CONDUIT_PIPECONDUCT_INDEX] := TokList[10];        //SWMM-HEAT
+          aLink.Data[CONDUIT_SOILCONDUCT_INDEX] := TokList[11];        //SWMM-HEAT
+          aLink.Data[CONDUIT_SOILDENSITY_INDEX] := TokList[12];        //SWMM-HEAT
+          aLink.Data[CONDUIT_SOILHEATCAP_INDEX] := TokList[13];        //SWMM-HEAT
+        end;
+      if Ntoks > 14 then
+        begin
+          aLink.Data[CONDUIT_AIRTPATTERN_INDEX] := TokList[14];       //SWMM-HEAT
+          aLink.Data[CONDUIT_SOILTPATTERN_INDEX]:= TokList[15];       //SWMM-HEAT
+        end;
       aLink.Data[COMMENT_INDEX ] := Comment;
       Result := 0;
     end;
@@ -1599,6 +1614,43 @@ begin
     Result := 0;
   end;
 end;
+
+
+function ReadWTemperature: Integer;                                             // SWMM-HEAT
+//-----------------------------------------------------------------------------
+//  Reads WTemperature data from a line of input.
+//-----------------------------------------------------------------------------
+var
+  ID      : String;
+  aWTemp  : TWTemperature;
+  X       : Single;
+begin
+  if nToks < 2 //Just CELSIUS needed, the rest will be pre-populated from DefProp
+  then Result := ErrMsg(ITEMS_ERR, '')
+  else begin
+
+    // Add new WTemperature to project
+    ID := TokList[0];
+    aWTemp := TWTemperature.Create;
+    Uutils.CopyStringArray(Project.DefProp[WTEMPERATURE].Data, aWTemp.Data);
+    Project.Lists[WTEMPERATURE].AddObject(ID, aWTemp);
+    Project.HasItems[WTEMPERATURE] := True;
+
+    // Parse units & values.
+    if Ntoks >= 1 then aWTemp.Data[WTEMP_UNITS_INDEX] := TokList[1];
+    if Ntoks >= 2 then aWTemp.Data[WTEMP_CRAIN_INDEX] := TokList[2];
+    if Ntoks >= 3 then aWTemp.Data[WTEMP_CGROUNDW_INDEX] := TokList[3];
+    if Ntoks >= 4 then aWTemp.Data[WTEMP_CRDII_INDEX] := TokList[4];
+    if Ntoks >= 5 then aWTemp.Data[WTEMP_KDECAY_INDEX] := TokList[5];
+    if Ntoks >= 6 then aWTemp.Data[WTEMP_CDWF_INDEX] := TokList[6];
+    if Ntoks >= 7 then aWTemp.Data[WTEMP_CINIT_INDEX] := TokList[7];
+
+    Result := 0;
+  end;
+end;
+
+
+
 
 
 function ReadLanduseData: Integer;
@@ -2938,6 +2990,7 @@ begin
     55:   Result := ReadStreetData;
     56:   Result := Uinlet.ReadInletUsageData(TokList, Ntoks);
     57:   Result := Uinlet.ReadInletDesignData(TokList, Ntoks);
+    58:   Result := ReadWTemperature;                                           //SWMM-HEAT
     else  Result := 0;
   end;
 end;
@@ -3379,6 +3432,93 @@ begin
 end;
 
 
+procedure SetDefaultSWMMHEATPatterns;                              //SWMM-HEAT
+//-----------------------------------------------------------------------------
+//  Sets default Air and Soil Temperature Patterns if they are missing.
+//-----------------------------------------------------------------------------
+var
+  ATP: String;
+  STP: String;
+  Index: Integer;
+  aPattern: TPattern;
+  PatType: Integer;
+  MONTHLYPATTERN : array[0..11] of String;
+  m: Integer;
+
+begin
+  ATP := 'DEFAULT_ATP_CELSIUS';
+  STP := 'DEFAULT_STP_CELSIUS';
+
+  //ATP
+  MONTHLYPATTERN[0] := '5';
+  MONTHLYPATTERN[1] := '5';
+  MONTHLYPATTERN[2] := '5';
+  MONTHLYPATTERN[3] := '5';
+  MONTHLYPATTERN[4] := '12.27';
+  MONTHLYPATTERN[5] := '12.5';
+  MONTHLYPATTERN[6] := '19.72';
+  MONTHLYPATTERN[7] := '17.93';
+  MONTHLYPATTERN[8] := '15.21';
+  MONTHLYPATTERN[9] := '12.38';
+  MONTHLYPATTERN[10] := '8.15';
+  MONTHLYPATTERN[11] := '10';
+
+
+
+  Index := Project.Lists[PATTERN].IndexOf(ATP);
+  if Index < 0 then //Doesnt exist
+    begin
+      aPattern := TPattern.Create();
+      aPattern.Comment := 'Monthly Temperature of Air in Sewer (Celsius)';
+      Project.Lists[PATTERN].AddObject(ATP, aPattern);
+      Project.HasItems[PATTERN] := True;
+      PatType := Uutils.FindKeyWord('MONTHLY', PatternTypes, 7);
+      aPattern.PatternType := PatType;
+
+      m:=0;
+      while (m < 12) do
+      begin
+        aPattern.Data[m] := MONTHLYPATTERN[m];
+        Inc(m)
+      end;
+      aPattern.Count := 12
+    end;
+
+  //STP Base from
+  MONTHLYPATTERN[0] := '7.24';
+  MONTHLYPATTERN[1] := '7.24';
+  MONTHLYPATTERN[2] := '7.24';
+  MONTHLYPATTERN[3] := '7.24';
+  MONTHLYPATTERN[4] := '12.27';
+  MONTHLYPATTERN[5] := '23';
+  MONTHLYPATTERN[6] := '18.01';
+  MONTHLYPATTERN[7] := '17.96';
+  MONTHLYPATTERN[8] := '17.40';
+  MONTHLYPATTERN[9] := '16.61';
+  MONTHLYPATTERN[10] := '10.32';
+  MONTHLYPATTERN[11] := '5';
+
+  Index := Project.Lists[PATTERN].IndexOf(STP);
+  if Index < 0 then //Doesnt exist
+    begin
+      aPattern := TPattern.Create();
+      aPattern.Comment := 'Monthly Temperature of Soil in Sewer (Celsius)';
+      Project.Lists[PATTERN].AddObject(STP, aPattern);
+      Project.HasItems[PATTERN] := True;
+      PatType := Uutils.FindKeyWord('MONTHLY', PatternTypes, 7);
+      aPattern.PatternType := PatType;
+
+      m:=0;
+      while (m < 12) do
+      begin
+        aPattern.Data[m] := MONTHLYPATTERN[m];
+        Inc(m)
+      end;
+      aPattern.Count := 12
+    end;
+
+end;
+
 function OpenProject(const Fname: String): TInputFileType;
 //-----------------------------------------------------------------------------
 //  Reads in project data from a file.
@@ -3413,11 +3553,14 @@ begin
   if Result <> iftNone then
   begin
     SetDefaultDates;                   // set any missing analysis dates
+    SetDefaultSWMMHEATPatterns;        //SWNN-HEAT Default Air and Soil Temperature Patterns
     Uglobals.RegisterCalibData;        // register calibration data files
     Uupdate.UpdateUnits;               // update choice of unit system
     Uupdate.UpdateDefOptions;          // update default analysis options
     Uupdate.UpdateLinkHints;           // update hints used for offsets
     Project.GetControlRuleNames;       // store control rule names in a list
+
+
   end;
 
   // Hide progress meter.
