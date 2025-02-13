@@ -852,7 +852,7 @@ var
      (Name:'Storage Shape';     Style:esButton;    Mask:emNone;        Length:0)
     );
 
-  ConduitProps: array [0..19] of TPropRecord =
+  ConduitProps: array [0..32] of TPropRecord =
     ((Name:'Name';              Style:esEdit;      Mask:emNoSpace;    Length:0),
      (Name:'Inlet Node';        Style:esEdit;      Mask:emNoSpace;    Length:0),
      (Name:'Outlet Node';       Style:esEdit;      Mask:emNoSpace;    Length:0),
@@ -873,8 +873,28 @@ var
      (Name:'Flap Gate';         Style:esComboList; Mask:emNone;       Length:0;
       List:'NO'#13'YES'),
      (Name:'Culvert Code';      Style:esButton;    Mask:emNone;       Length:0),
-     (Name:'Inlets';            Style:esButton;    Mask:emNone;       Length:0)
+     (Name:'Inlets';            Style:esButton;    Mask:emNone;       Length:0),
+
+     // Extra Parameters 20-25 from DefConduit
+     (Name:'Width Param.';            Style:esButton;    Mask:emNone;       Length:0),
+     (Name:'Left Slope';            Style:esEdit;      Mask:emPosNumber),
+     (Name:'Right Slope';            Style:esEdit;      Mask:emPosNumber),
+     (Name:'Barrels';            Style:esEdit;      Mask:emPosNumber),
+     (Name:'Transect ID';            Style:esEdit;      Mask:emNoSpace),
+     (Name:'Inlet Params';            Style:esEdit;      Mask:emNoSpace),
+
+     //SWMM-HEAT
+     (Name:'(HEAT) Thickness';        Style:esEdit;      Mask:emPosNumber),
+     (Name:'(HEAT) Wall Thermal Conductivity';        Style:esEdit;      Mask:emPosNumber),
+     (Name:'(HEAT) Soil Thermal Conductivity';        Style:esEdit;      Mask:emPosNumber),
+     (Name:'(HEAT) Soil Density';        Style:esEdit;      Mask:emPosNumber),
+     (Name:'(HEAT) Soil Heat Capacity';        Style:esEdit;      Mask:emPosNumber),
+     (Name:'(HEAT) Sewer Air Temp. Pattern';        Style:esComboEdit;      Mask:emNoSpace; Length:0;
+     List:''),
+     (Name:'(HEAT) Sewer Soil Temp. Pattern';        Style:esComboEdit;      Mask:emNoSpace; Length:0;
+     List:'')
      );
+
 
   PumpProps: array [0..8] of TPropRecord =
     ((Name:'Name';            Style:esEdit;       Mask:emNoSpace;  Length:0),
@@ -1092,7 +1112,7 @@ var
      'to water level'
     );
 
-  ConduitHint: array[0..19] of String =
+  ConduitHint: array[0..32] of String =
     ('User-assigned name of Conduit',
      'Name of node on the inlet end of conduit ',
      'Name of node on the outlet end of conduit ',
@@ -1112,8 +1132,25 @@ var
      'Rate of seepage loss into surrounding soil',
      'Select YES if a flap gate prevents reverse flow through conduit',
      'Click to select a Culvert Type code (if applicable)',
-     'Click to add/edit inlets.'
-    );
+     'Click to add/edit inlets.',
+
+     // From DefConduit
+     'Width Parameter. XSection Parameter',
+     'Left Slope. XSection Parameter',
+     'Right Slope. XSection Parameter',
+     'Barrels. XSection Parameter',
+     'Transect ID. XSection Parameter',
+     'Inlet Params. XSection Parameter',
+
+     'Wall thickness m. Used in the SWMM-HEAT Module.',                                        //SWMM-HEAT
+     'Wall Thermal Conductivity W·m^(−1)·K^(−1). Used in the SWMM-HEAT Module.',               //SWMM-HEAT
+     'Soil Thermal Conductivity W·m^(−1)·K^(−1). Used in the SWMM-HEAT Module.',              //SWMM-HEAT
+     'Soil Density kg·m^(−3). Used in the SWMM-HEAT Module.',                                  //SWMM-HEAT
+     'Soil Specific Heat Capacity J·kg^(−1)·K^(−1). Used in the SWMM-HEAT Module.',            //SWMM-HEAT
+     'Sewer Air Temperature Pattern. Used in the SWMM-HEAT Module.',                             //SWMM-HEAT
+     'Sewer Soil Temperature Pattern. Used in the SWMM-HEAT Module.'                             //SWMM-HEAT
+     );
+
 
   PumpHint: array[0..8] of String =
     ('User-assigned name of pump',

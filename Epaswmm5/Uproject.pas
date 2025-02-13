@@ -73,7 +73,7 @@ const
   LID            = 32;
   STREET         = 33;
   INLET          = 34;
-  WTEMPERATURE   = 35;
+  WTEMPERATURE   = 35;  //SWMM-HEAT
 
 //---------------------------
 // Climatology category codes
@@ -1282,6 +1282,8 @@ begin
   Lists[CLIMATE].Add('Snow Melt');
   Lists[CLIMATE].Add('Areal Depletion');
   Lists[CLIMATE].Add('Adjustments');
+
+
 
   Climatology.Init;
   for I := 0 to MAXCLASS do

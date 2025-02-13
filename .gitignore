@@ -12,3 +12,8 @@ Epaswmm5/Epaswmm5_project.tvsconfig
 *.res
 *.identcache
 Epaswmm5/Epaswmm5.dproj
+*.exe
+Epaswmm5/Dgrouped.dfm
+Epaswmm5/Epaswmm5.dpr
+Epaswmm5/Epaswmm5.dproj
+Epaswmm5/Epaswmm5.dproj.local

@@ -613,6 +613,10 @@ begin
     CONDUIT:
       begin
         PropEditForm.Editor.SetProps(ConduitProps, Project.PropList);
+
+        //SWMM-HEAT
+        ConduitProps[CONDUIT_AIRTPATTERN_INDEX].List := Project.Lists[PATTERN].Text;
+        ConduitProps[CONDUIT_SOILTPATTERN_INDEX].List := Project.Lists[PATTERN].Text;
       end;
     PUMP:
       begin
