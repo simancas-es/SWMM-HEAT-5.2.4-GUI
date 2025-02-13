@@ -99,6 +99,7 @@ const
   TXT_SURF_RUNOFF =  'Surface Runoff:';
   TXT_FLOW_ROUTING = 'Flow Routing:';
   TXT_QUAL_ROUTING = 'Quality Routing:';
+  TXT_TEMP_ROUTING = 'Temperature Routing:';
 
   SHORT_TERM_LIMIT = 20;               //Simulation duration (in days) that
                                        //defines a short-term simulation
@@ -106,6 +107,7 @@ var
   ErrRunoff: Single;                   //Runoff continuity error
   ErrFlow: Single;                     //Flow routing continuity error
   ErrQual: Single;                     //Quality routing continuity error
+  ErrTemp: Single;                     //Temperature routing continuity error
   OldDays: LongInt;                    //Old elapsed number of days
   Warnings: Integer;
   Activated: Boolean;                  //True if form has been activated
@@ -119,6 +121,7 @@ begin
   ErrRunoff := 0;
   ErrFlow := 0;
   ErrQual := 0;
+  ErrTemp := 0;
   ErrLabel1.Caption := '';
   ErrLabel2.Caption := '';
   ErrLabel3.Caption := '';
@@ -298,7 +301,7 @@ begin
 
     // End the simulation and retrieve mass balance errors
     swmm_end;
-    swmm_getMassBalErr(ErrRunoff, ErrFlow, ErrQual);
+    swmm_getMassBalErr(ErrRunoff, ErrFlow, ErrQual, ErrTemp);
     Warnings := swmm_getWarnings();
   end;
 
@@ -439,6 +442,16 @@ begin
         Caption := TXT_QUAL_ROUTING;
       with FindComponent('ErrLabel' + IntToStr(I)) as TLabel do
         Caption := Format('%7.2f %%', [ErrQual]);
+    end;
+
+    // Temperature routing continuity error
+    if ErrTemp <> 0.0 then
+    begin
+      Inc(I);
+      with FindComponent('Label' + IntToStr(I)) as TLabel do
+        Caption := TXT_TEMP_ROUTING;
+      with FindComponent('ErrLabel' + IntToStr(I)) as TLabel do
+        Caption := Format('%7.2f %%', [ErrTemp]);
     end;
   end
 
