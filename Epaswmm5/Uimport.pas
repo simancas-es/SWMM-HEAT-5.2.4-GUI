@@ -44,6 +44,7 @@ function  OpenProject(const Fname: String): TInputFileType;
 function  ReadInpFile(const Fname: String):Boolean;
 function  FullPathName(Fname: String): String;
 procedure SetDefaultDates;
+procedure SetDefaultSWMMHEATPatterns;
 
 implementation
 
