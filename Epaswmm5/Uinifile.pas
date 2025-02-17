@@ -654,6 +654,7 @@ begin
     Uutils.CopyStringArray(DefWeir,       DefProp[WEIR].Data);
     Uutils.CopyStringArray(DefOutlet,     DefProp[OUTLET].Data);
     Uutils.CopyStringArray(DefPollutant,  DefProp[POLLUTANT].Data);
+    Uutils.CopyStringArray(DefWTemperature,  DefProp[WTEMPERATURE].Data);
     Uutils.CopyStringArray(DefOptions,    DefProp[OPTION].Data);
     Uutils.CopyStringArray(DefProp[OPTION].Data, Options.Data);
   end;

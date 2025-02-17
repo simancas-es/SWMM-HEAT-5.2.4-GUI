@@ -45,6 +45,7 @@ function  ReadInpFile(const Fname: String):Boolean;
 function  FullPathName(Fname: String): String;
 procedure SetDefaultDates;
 procedure SetDefaultSWMMHEATPatterns;
+procedure SetDefaultSWMMHEATTemperature;
 
 implementation
 
@@ -3520,6 +3521,27 @@ begin
 
 end;
 
+procedure SetDefaultSWMMHEATTemperature;                             //SWMM-HEAT
+//-----------------------------------------------------------------------------
+//  Sets default WTEMPERATURE Section (which is needed to run SWMM-HEAT).
+//-----------------------------------------------------------------------------
+var
+  aWTemp : TWTemperature;
+  WTempName : String;
+  Index : Integer;
+
+begin
+  WTempName := 'WTEMPERATURE';
+  Index := Project.Lists[WTEMPERATURE].IndexOf(WTempName);
+  if Index < 0 then //Doesnt exist
+    begin
+      aWTemp := TWTemperature.Create;
+      Uutils.CopyStringArray(Project.DefProp[WTEMPERATURE].Data, aWTemp.Data);
+      Project.Lists[WTEMPERATURE].AddObject(WTempName, aWTemp);
+      Project.HasItems[WTEMPERATURE] := True;
+    end;
+end;
+
 function OpenProject(const Fname: String): TInputFileType;
 //-----------------------------------------------------------------------------
 //  Reads in project data from a file.
@@ -3554,7 +3576,8 @@ begin
   if Result <> iftNone then
   begin
     SetDefaultDates;                   // set any missing analysis dates
-    SetDefaultSWMMHEATPatterns;        //SWNN-HEAT Default Air and Soil Temperature Patterns
+    SetDefaultSWMMHEATPatterns;        //SWMM-HEAT Default Air and Soil Temperature Patterns
+    SetDefaultSWMMHEATTemperature;     //SWMM-HEAT Default Temperature object
     Uglobals.RegisterCalibData;        // register calibration data files
     Uupdate.UpdateUnits;               // update choice of unit system
     Uupdate.UpdateDefOptions;          // update default analysis options

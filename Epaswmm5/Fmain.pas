@@ -881,6 +881,7 @@ begin
   ShowRunStatus;        // Resets run status icon
   PageSetup;            // Resets the printer page options
   SetDefaultSWMMHEATPatterns; //SWMM-HEAT Create patterns.
+  SetDefaultSWMMHEATTemperature; //SWMM-HEAT Create Default Temperature object
 
   // Make Title/Notes be the Browser's current data category
   Ubrowser.BrowserUpdate(NOTES, Project.CurrentItem[NOTES]);

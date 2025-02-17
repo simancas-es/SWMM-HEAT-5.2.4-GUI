@@ -652,6 +652,15 @@ const
      '',             // 7 - Co-pollutant
      '');            // 8 - Co-pollut. fraction
 
+    DefWTemperature: array[0..6] of String =
+    ('CELSIUS',         // 0 - Temperature units                                     SWWM-HEAT
+     '0',            // 1 - Crain.                              SWWM-HEAT
+     '0',            // 2 - Cgw.                               SWWM-HEAT
+     '0',            // 3 - Crdii.
+     '0',            // 4 - DWF concen.                               SWWM-HEAT
+     '0',            // 5 - Kdeca.                                SWWM-HEAT
+     '12');           // 6 - Cinit                               SWWM-HEAT
+
 
   DefStreet: array[0..9] of String =
     ('30',           // 0 - crown width
