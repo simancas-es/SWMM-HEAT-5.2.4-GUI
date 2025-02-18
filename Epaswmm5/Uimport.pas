@@ -2486,6 +2486,36 @@ begin
       TokList[1] := IntToStr(I);
     end;
 
+    TEMP_MODEL_INDEX:
+    begin
+
+    end;
+
+    DENSITY_INDEX:
+    begin
+
+    end;
+    SPEC_HEAT_CAPACITY_INDEX:
+    begin
+
+    end;
+    HUMIDITY_INDEX:
+    begin
+
+    end;
+    EXT_UNIT_INDEX:
+    begin
+
+    end;
+    GLOBTPAT_INDEX:
+    begin
+
+    end;
+    ASCII_OUT_INDEX:
+    begin
+
+    end;
+
   end;
   if Result = 0 then Project.Options.Data[Index] := TokList[1];
 end;
