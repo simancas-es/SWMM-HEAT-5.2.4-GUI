@@ -59,6 +59,7 @@ var
   Nnodes        : Integer;        // Number of reporting nodes
   Nlinks        : Integer;        // Number of reporting links
   Npolluts      : Integer;        // Number of pollutants
+  TempModel     : Integer;        // SWMM-HEAT is Temp Model active
 
 function  CheckRunStatus(const Fname: String): TRunStatus;
 procedure ClearOutput;
@@ -370,6 +371,8 @@ var
   ReportStart   : TDateTime;
   StartDate     : Double;
 
+  var H         : Integer; //SWMM-HEAT
+
 begin
   // Read number of drainage system components
   FileSeek(Fout, 0, 0);
@@ -381,10 +384,18 @@ begin
   FileRead(Fout, Nlinks, SizeOf(Nlinks));           // # Links
   FileRead(Fout, Npolluts, SizeOf(Npolluts));       // # Pollutants
 
+
+  FileRead(Fout, TempModel, SizeOf(TempModel));     // SWMM-HEAT is active Temp Modelling
+
+
+  if TempModel > 1 then H := 1 else H:= 0;
+
   // Skip over saved subcatch/node/link input values
-  SkipBytes := (Nsubcatchs+2) * RecordSize  // Subcatchment area
-             + (3*Nnodes+4) * RecordSize  // Node type, invert & max depth
-             + (5*Nlinks+6) * RecordSize; // Link type, z1, z2, max depth & length
+  SkipBytes := (2 + 1*Nsubcatchs) * RecordSize  // Subcatchment area
+             + (4 + 3*Nnodes) * RecordSize  // Node type, invert & max depth
+             + (6 + 5*Nlinks) * RecordSize; // Link type, z1, z2, max depth & length
+
+
   SkipBytes := Offset0 + SkipBytes;
   FileSeek(Fout, SkipBytes, 0);
 
@@ -613,7 +624,7 @@ var
   I: Integer;
 begin
   BytePos := Offset0 +                      // prolog records
-             (2+Nsubcatchs)*RecordSize +    // subcatchment data
+             (2+1*Nsubcatchs)*RecordSize +    // subcatchment data
              (4+3*Nnodes)*RecordSize +      // node data
              (6+5*K)*RecordSize +           // link data prior to link K
              RecordSize;                    // link type code
@@ -819,7 +830,9 @@ begin
   if (Project.IsNode(ObjType)) and (CurrentNodeVar <> NOVIEW) then
   begin
     ValStr := GetNodeValStr(CurrentNodeVar, CurrentPeriod, ObjType, ObjIndex);
-    if CurrentNodeVar < NODEQUAL then
+    if CurrentNodeVar >= (NODEQUAL + NPolluts) then                         //SWMM-HEAT
+      Units := ' ' + NodeUnits[CurrentNodeVar - NPolluts + 1].Units         //SWMM-HEAT
+    else if CurrentNodeVar < NODEQUAL then
       Units := ' ' + NodeUnits[CurrentNodeVar].Units
     else
       Units := ' ' + Project.PollutUnits[CurrentNodeVar - NODEQUAL];
@@ -828,7 +841,9 @@ begin
   if (Project.IsLink(ObjType)) and (CurrentLinkVar <> NOVIEW) then
   begin
     ValStr := GetLinkValStr(CurrentLinkVar, CurrentPeriod, ObjType, ObjIndex);
-    if CurrentLinkVar < LINKQUAL then
+    if CurrentLinkVar >= (LINKQUAL + NPolluts) then                         //SWMM-HEAT
+      Units := ' ' + LinkUnits[CurrentLinkVar - NPolluts + 1].Units         //SWMM-HEAT
+    else if CurrentLinkVar < LINKQUAL then
       Units := ' ' + LinkUnits[CurrentLinkVar].Units
     else
       Units := ' ' + Project.PollutUnits[CurrentLinkVar - LINKQUAL];

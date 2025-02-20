@@ -1284,7 +1284,6 @@ begin
   Lists[CLIMATE].Add('Adjustments');
 
 
-
   Climatology.Init;
   for I := 0 to MAXCLASS do
   begin
@@ -1300,6 +1299,7 @@ begin
     end;
     HasItems[OPTION] := True;
     HasItems[CLIMATE] := True;
+    HasItems[WTEMPERATURE] := False;                //SWMM-HEAT Hack to make it static
     NextID[I] := IDIncrement;
   end;
   Uupdate.UpdateLinkHints;

@@ -4,7 +4,7 @@ unit Dinflows;
 {                    Unit:    Dinflow.pas                           }
 {                    Project: EPA SWMM                              }
 {                    Version: 5.2                                   }
-{                    Date:    11/01/21    (5.2.0)                   }
+{                    Date:    11/01/25    (5.2.0)                   }
 {                    Author:  L. Rossman                            }
 {                                                                   }
 {   Dialog form unit that edits the properties of user-supplied     }
@@ -479,12 +479,15 @@ begin
     RowCount := 7;
 
     // Columns are for Flow + pollutants
-    ColCount := Project.Lists[POLLUTANT].Count + 1;
+    ColCount := 1 + Project.Lists[POLLUTANT].Count  + Project.Lists[WTEMPERATURE].Count; //SWMM-HEAT
 
     // Add constituent names to row 0
     Cells[0, 0] := TXT_FLOW;
     for I := 0 to Project.Lists[POLLUTANT].Count-1 do
       Cells[I+1,0] := Project.Lists[POLLUTANT].Strings[I];
+
+    for I := 0 to Project.Lists[WTEMPERATURE].Count-1 do        //SWMM-HEAT
+      Cells[Project.Lists[POLLUTANT].Count + 1 + I, 0] := Project.Lists[WTEMPERATURE].Strings[I];//SWMM-HEAT
 
     // Add current Inflow properties for each constituent.
     // Inflow properties are stored in the node's DxInflow
@@ -509,8 +512,11 @@ begin
       if Length(Trim(Cells[I,2])) = 0 then  // Constituent Type
       begin
         if I = 0 then Cells[I,2] := 'FLOW'
-        else Cells[I,2] := 'CONCEN';
-      end;
+        else if (I > 0) and (I <= Project.Lists[POLLUTANT].Count) then               //SWMM-HEAT
+            Cells[I,2] := 'CONCEN2'                                                   //SWMM-HEAT
+        else if (I > Project.Lists[POLLUTANT].Count) then                            //SWMM-HEAT
+            Cells[I,2] := 'WTEMPERATURE2'                                             //SWMM-HEAT
+      end;                                                                           //SWMM-HEAT
       if Length(Trim(Cells[I,3])) = 0       // Unit Conversion Factor
       then Cells[I,3] := '1.0';
       if Length(Trim(Cells[I,4])) = 0       // Scale Factor
@@ -530,12 +536,15 @@ begin
 
     // Rows are for DW Inflow properties, columns for Flow + pollutants
     RowCount := 6;
-    ColCount := Project.Lists[POLLUTANT].Count + 1;
+    ColCount := 1 + Project.Lists[POLLUTANT].Count  + Project.Lists[WTEMPERATURE].Count; //SWMM-HEAT
 
     // Add constituent names to row 0
     Cells[0, 0] := TXT_FLOW;
     for I := 0 to Project.Lists[POLLUTANT].Count-1 do
       Cells[I+1,0] := Project.Lists[POLLUTANT].Strings[I];
+
+    for I := 0 to Project.Lists[WTEMPERATURE].Count-1 do        //SWMM-HEAT
+      Cells[Project.Lists[POLLUTANT].Count + 1 + I, 0] := Project.Lists[WTEMPERATURE].Strings[I];//SWMM-HEAT
 
     // Add current DW Inflow properties for each constituent.
     // Inflow properties are stored in the node's DWInflow
@@ -579,7 +588,7 @@ var
 begin
   with DwInflowDataGrid do
   begin
-    for I := 1 to ColCount-1 do
+    for I := 1 to Project.Lists[POLLUTANT].Count do
     begin
       S := Cells[I,1];
       if Uutils.GetSingle(S, C) then continue;
@@ -660,11 +669,19 @@ begin
 
     Cells[DxParamIndex,1] := DxSeriesCombo.Text;      //Time Series
     Cells[DxParamIndex,4] := DxSFactorEdit.Text;      //Scaling Factor
-    if DxParamIndex > 0 then
+
+    if (DxParamIndex > 0) and (DxParamIndex <= Project.Lists[POLLUTANT].Count) then    //SWMM-HEAT
     begin
       Cells[DxParamIndex,2] := DxTypeCombo.Text;      //Inflow Type
       Cells[DxParamIndex,3] := DxCFactorEdit.Text;    //Units Conv. Factor
-    end;
+    end
+
+    else if (DxParamIndex > Project.Lists[POLLUTANT].Count) then    //SWMM-HEAT
+    begin
+      Cells[DxParamIndex,2] := 'WTEMPERATURE';      //Inflow Type   //SWMM-HEAT Hack
+      Cells[DxParamIndex,3] := DxCFactorEdit.Text;    //Units Conv. Factor
+    end
+
   end;
 end;
 
@@ -684,7 +701,7 @@ begin
 
   // Show the Parameter Type and Conversion Factor data fields for
   // pollutant parameters (i.e., not for Flow)
-  IsVisible := (DxParamIndex > 0);
+  IsVisible := (DxParamIndex > 0) and (DxParamIndex < Project.Lists[POLLUTANT].Count + 1);  //SWMM-HEAT
   DxTypeCombo.Visible := IsVisible;
   DxCFactorEdit.Visible := IsVisible;
   Label3.Visible := IsVisible;
@@ -755,8 +772,14 @@ begin
   // Set text for DWF units
   if DwParamIndex = 0 then
     DWUnitsLabel.Caption := '(' + Project.Options.Data[FLOW_UNITS_INDEX] + ')'
-  else with Project.Lists[POLLUTANT].Objects[DwParamIndex-1] as TPollutant do
-    DWUnitsLabel.Caption := '(' + Data[POLLUT_UNITS_INDEX] + ')';
+  else if (DwParamIndex > 0) and (DwParamIndex <= Project.Lists[POLLUTANT].Count) then
+      with Project.Lists[POLLUTANT].Objects[DwParamIndex-1] as TPollutant do
+      DWUnitsLabel.Caption := '(' + Data[POLLUT_UNITS_INDEX] + ')'
+
+  //SWMM-HEAT
+  else if (DwParamIndex > Project.Lists[POLLUTANT].Count) then
+      with Project.Lists[WTEMPERATURE].Objects[DwParamIndex -1 -Project.Lists[POLLUTANT].Count] as TWTemperature do
+      DWUnitsLabel.Caption := '(' + Data[WTEMP_UNITS_INDEX] + ')';
 
   // Re-set HasChanged to original value
   HasChanged := ChangedFlag;

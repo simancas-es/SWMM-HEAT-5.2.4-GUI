@@ -64,8 +64,9 @@ const
   INFLOW      = 13;
   OVERFLOW    = 14;
   NODEQUAL    = 15;
+  NODEWTEMP   = 16;   //SWMM-HEAT
 
-  NODEVIEWS   = 15;   //Max. node display variable index
+  NODEVIEWS   = 16;   //Max. node display variable index //SWMM-HEAT +1
   NODERPTVAR1 = 2;    //Index of 1st report file variable
   NODEOUTVAR1 = 9;    //Index of 1st output file variable
 
@@ -87,9 +88,11 @@ const
   VELOCITY    = 11;
   LINKVOLUME  = 12;
   CAPACITY    = 13;
-  LINKQUAL    = 14;
+  AIRVELOCITY = 14;
+  LINKQUAL    = 15;
+  LINKWTEMP   = 16;  //SWMM-HEAT
 
-  LINKVIEWS   = 14;  //Max. link display variable index
+  LINKVIEWS   = 16;  //Max. link display variable index //SWMM-HEAT +1
   LINKRPTVAR1 = 4;   //Index of 1st report file variable
   LINKOUTVAR1 = 9;   //Index of 1st output file variable
 
@@ -238,7 +241,7 @@ const
 //                 by solver to output file
 //  DefIntervals = default legend intervals (# intervals =
 //                 MAXINTERVALS constant defined in Uglobals.pas)
-  NodeVariable: array[0..NODEQUAL] of TViewVariable =
+  NodeVariable: array[0..NODEVIEWS] of TViewVariable =
     (
      (Name: 'None';
       SourceIndex: -1;
@@ -302,11 +305,16 @@ const
 
      (Name: 'Quality';
       SourceIndex: 6;
-      DefIntervals: (0.25,0.5,0.75,1.0))
+      DefIntervals: (0.25,0.5,0.75,1.0)),
+
+     //SWMM-HEAT
+     (Name: 'Temperature';
+      SourceIndex: 7;
+      DefIntervals: (0.0,10,20,30))
     );
 
 //Link view variables -- see notes above for Node variables
-  LinkVariable: array[0..LINKQUAL] of TViewVariable =
+  LinkVariable: array[0..LINKVIEWS] of TViewVariable =
     (
      (Name:'None';
       SourceIndex:-1;
@@ -364,9 +372,18 @@ const
       SourceIndex: 4;
       DefIntervals:(0.25, 0.50, 0.75, 1.0)),
 
-     (Name:'Quality';
+      (Name:'Air Velocity';
       SourceIndex: 5;
-      DefIntervals:(0.25,0.5,0.75,1.0))
+      DefIntervals:(0, 0, 0, 0)),
+
+     (Name:'Quality';
+      SourceIndex: 6;
+      DefIntervals:(0.25,0.5,0.75,1.0)),
+
+     //SWMM-HEAT
+     (Name: 'Temperature';
+      SourceIndex: 7;
+      DefIntervals: (0.0,10,20,30))
     );
 
   BaseSubcatchUnits: array[0..SUBCATCHVIEWS, TUnitSystem] of PChar =
@@ -412,7 +429,9 @@ const
                   ('CFS','CMS'),          // Lateral Inflow
                   ('CFS','CMS'),          // Total Inflow
                   ('CFS','CMS'),          // Overflow
-                  ('mg/L','mg/L'));       // Quality
+                  ('mg/L','mg/L'),       // Quality
+                  ('deg F','deg C'));     // SWMM-HEAT Temperature
+
 
   BaseLinkUnits: array[0..LINKVIEWS,TUnitSystem] of PChar =
                  (('',''),                // No View
@@ -431,5 +450,7 @@ const
                   ('fps','m/s'),          // Velocity
                   ('ft'#179,'m'#179),     // Volume.
                   ('',''),                // Fraction Full
-                  ('mg/L','mg/L'));       // Quality
+                  ('fps','m/s'),          // SWMM-HEAT Air Velocity
+                  ('mg/L','mg/L'),       // Quality
+                  ('deg F','deg C'));     // SWMM-HEAT Temperature
 

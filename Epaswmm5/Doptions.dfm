@@ -3,7 +3,7 @@ object AnalysisOptionsForm: TAnalysisOptionsForm
   Top = 171
   BorderStyle = bsDialog
   Caption = 'Simulation Options'
-  ClientHeight = 503
+  ClientHeight = 542
   ClientWidth = 423
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -12,19 +12,17 @@ object AnalysisOptionsForm: TAnalysisOptionsForm
   Font.Name = 'Segoe UI'
   Font.Style = []
   KeyPreview = True
-  OldCreateOrder = False
   Position = poMainFormCenter
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   OnShow = FormShow
-  PixelsPerInch = 96
   TextHeight = 15
   object PageControl1: TPageControl
     Left = 8
     Top = 8
     Width = 403
     Height = 441
-    ActivePage = TabSheet4
+    ActivePage = TabSheet1
     TabOrder = 0
     OnChange = PageControl1Change
     OnChanging = PageControl1Changing
@@ -34,7 +32,7 @@ object AnalysisOptionsForm: TAnalysisOptionsForm
         Left = 16
         Top = 32
         Width = 169
-        Height = 208
+        Height = 236
         Caption = 'Process Models'
         Ctl3D = True
         ParentCtl3D = False
@@ -93,10 +91,19 @@ object AnalysisOptionsForm: TAnalysisOptionsForm
           TabOrder = 5
           OnClick = EditChange
         end
+        object TemperatureModelBox: TCheckBox
+          Left = 8
+          Top = 204
+          Width = 145
+          Height = 21
+          Caption = 'Temperature Model'
+          TabOrder = 6
+          OnClick = EditChange
+        end
       end
       object MiscGroup: TGroupBox
         Left = 200
-        Top = 258
+        Top = 274
         Width = 177
         Height = 121
         Caption = 'Routing Options'
@@ -142,7 +149,7 @@ object AnalysisOptionsForm: TAnalysisOptionsForm
         Left = 200
         Top = 32
         Width = 177
-        Height = 208
+        Height = 236
         Caption = 'Infiltration Model'
         Items.Strings = (
           'Horton'
@@ -155,7 +162,7 @@ object AnalysisOptionsForm: TAnalysisOptionsForm
       end
       object RoutingMethodsGroup: TRadioGroup
         Left = 16
-        Top = 258
+        Top = 274
         Width = 169
         Height = 121
         Caption = 'Routing Model'
@@ -208,7 +215,7 @@ object AnalysisOptionsForm: TAnalysisOptionsForm
       object Label4: TLabel
         Left = 272
         Top = 32
-        Width = 60
+        Width = 61
         Height = 15
         Caption = 'Time (H:M)'
       end
@@ -503,14 +510,14 @@ object AnalysisOptionsForm: TAnalysisOptionsForm
         object Label14: TLabel
           Left = 16
           Top = 93
-          Width = 137
+          Width = 138
           Height = 15
           Caption = 'Lateral Flow Tolerance (%)'
         end
         object Label19: TLabel
           Left = 16
           Top = 61
-          Width = 140
+          Width = 141
           Height = 15
           Caption = 'System Flow Tolerance (%)'
         end
@@ -536,6 +543,7 @@ object AnalysisOptionsForm: TAnalysisOptionsForm
             Width = 41
             Height = 23
             Text = '5'
+            StyleElements = [seFont, seClient, seBorder]
             OnChange = EditChange
             ExplicitWidth = 41
             ExplicitHeight = 23
@@ -563,6 +571,7 @@ object AnalysisOptionsForm: TAnalysisOptionsForm
             Width = 41
             Height = 23
             Text = '5'
+            StyleElements = [seFont, seClient, seBorder]
             OnChange = EditChange
             ExplicitWidth = 41
             ExplicitHeight = 23
@@ -597,7 +606,7 @@ object AnalysisOptionsForm: TAnalysisOptionsForm
       object Label29: TLabel
         Left = 16
         Top = 218
-        Width = 216
+        Width = 217
         Height = 15
         Caption = 'Time Step For Conduit Lengthening (sec)'
       end
@@ -611,28 +620,28 @@ object AnalysisOptionsForm: TAnalysisOptionsForm
       object Label15: TLabel
         Left = 16
         Top = 316
-        Width = 159
+        Width = 160
         Height = 15
         Caption = 'Maximum Trials per Time Step'
       end
       object HeadTolLabel: TLabel
         Left = 16
         Top = 284
-        Width = 185
+        Width = 186
         Height = 15
         Caption = 'Head Convergence Tolerance (feet)'
       end
       object MinTimeStepLabel: TLabel
         Left = 16
         Top = 185
-        Width = 180
+        Width = 181
         Height = 15
         Caption = 'Minimum Variable Time Step (sec)'
       end
       object Label26: TLabel
         Left = 16
         Top = 16
-        Width = 70
+        Width = 71
         Height = 15
         Caption = 'Inertial Terms'
       end
@@ -810,7 +819,7 @@ object AnalysisOptionsForm: TAnalysisOptionsForm
       object Label20: TLabel
         Left = 16
         Top = 349
-        Width = 179
+        Width = 180
         Height = 15
         Caption = 'Number of Parallel Threads to Use'
       end
@@ -898,6 +907,7 @@ object AnalysisOptionsForm: TAnalysisOptionsForm
           Height = 23
           TabOrder = 0
           Text = '75'
+          StyleElements = [seFont, seClient, seBorder]
           OnChange = EditChange
           ExplicitWidth = 42
           ExplicitHeight = 23
@@ -929,6 +939,7 @@ object AnalysisOptionsForm: TAnalysisOptionsForm
           Height = 23
           TabOrder = 0
           Text = '4'
+          StyleElements = [seFont, seClient, seBorder]
           OnChange = EditChange
           ExplicitWidth = 42
           ExplicitHeight = 23
@@ -1102,7 +1113,7 @@ object AnalysisOptionsForm: TAnalysisOptionsForm
   end
   object OKBtn: TButton
     Left = 80
-    Top = 464
+    Top = 488
     Width = 75
     Height = 25
     Caption = 'OK'
@@ -1111,7 +1122,7 @@ object AnalysisOptionsForm: TAnalysisOptionsForm
   end
   object CancelBtn: TButton
     Left = 174
-    Top = 464
+    Top = 488
     Width = 75
     Height = 25
     Caption = 'Cancel'
@@ -1120,7 +1131,7 @@ object AnalysisOptionsForm: TAnalysisOptionsForm
   end
   object HelpBtn: TButton
     Left = 268
-    Top = 464
+    Top = 488
     Width = 75
     Height = 25
     Caption = '&Help'

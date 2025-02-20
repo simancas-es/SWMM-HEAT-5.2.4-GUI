@@ -1636,7 +1636,7 @@ begin
     aWTemp := TWTemperature.Create;
     Uutils.CopyStringArray(Project.DefProp[WTEMPERATURE].Data, aWTemp.Data);
     Project.Lists[WTEMPERATURE].AddObject(ID, aWTemp);
-    Project.HasItems[WTEMPERATURE] := True;
+    Project.HasItems[WTEMPERATURE] := False;
 
     // Parse units & values.
     if Ntoks >= 1 then aWTemp.Data[WTEMP_UNITS_INDEX] := TokList[1];
@@ -1830,13 +1830,22 @@ begin
     else begin
       S[1] := TokList[1];                // Constituent name
       S[2] := TokList[2];                // Time Series name
-      S[3] := 'FLOW';
+      S[3] := 'FLOW';                    // SWMM-HEAT
       S[4] := '1.0';
-      if not SameText(S[1], 'FLOW') then
+
+      //SWMM-HEAT
+      if SameText(S[1], 'WTEMPERATURE') then
+      begin
+         S[3] := 'WTEMPERATURE';
+         if nToks >= 5 then S[4] := TokList[4] else S[4] := '1.0';
+      end
+
+      else
       begin
         if nToks >= 4 then S[3] := TokList[3] else S[3] := 'CONCEN';
         if nToks >= 5 then S[4] := TokList[4] else S[4] := '1.0';
       end;
+
       if nToks >= 6 then S[5] := TokList[5] else S[5] := '1.0';
       if nToks >= 7 then S[6] := TokList[6] else S[6] := '';
       if nToks >= 8 then S[7] := TokList[7] else S[7] := '';
@@ -3568,7 +3577,7 @@ begin
       aWTemp := TWTemperature.Create;
       Uutils.CopyStringArray(Project.DefProp[WTEMPERATURE].Data, aWTemp.Data);
       Project.Lists[WTEMPERATURE].AddObject(WTempName, aWTemp);
-      Project.HasItems[WTEMPERATURE] := True;
+      Project.HasItems[WTEMPERATURE] := False;
     end;
 end;
 

@@ -37,6 +37,7 @@ type
     GroundwaterBox: TCheckBox;
     FlowRoutingBox: TCheckBox;
     WaterQualityBox: TCheckBox;
+    TemperatureModelBox: TCheckBox;
     RDIIBox: TCheckBox;
     MiscGroup: TGroupBox;
     Label8: TLabel;
@@ -331,6 +332,12 @@ begin
     then WaterQualityBox.Checked := not SameText(Data[IGNORE_QUALITY_INDEX], 'YES')
     else WaterQualityBox.Enabled := False;
 
+    //SWMM-HEAT
+    if Project.Lists[WTEMPERATURE].Count > 0
+    then TemperatureModelBox.Checked := SameText(Data[TEMP_MODEL_INDEX], '1')
+    else TemperatureModelBox.Enabled := False;
+
+
     with InertialTermsCombo do
     begin
       if SameText(Data[INERTIAL_DAMPING_INDEX], 'NONE')
@@ -514,6 +521,12 @@ begin
         Data[IGNORE_QUALITY_INDEX] := 'YES'
       else
         Data[IGNORE_QUALITY_INDEX] := 'NO';
+
+    if TemperatureModelBox.Enabled then                       //SWMM-HEAT
+      if TemperatureModelBox.Checked then                     //SWMM-HEAT
+        Data[TEMP_MODEL_INDEX] := '1'                         //SWMM-HEAT
+      else                                                    //SWMM-HEAT
+        Data[TEMP_MODEL_INDEX] := '0';                        //SWMM-HEAT
 
     with InertialTermsCombo do
     begin

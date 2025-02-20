@@ -320,6 +320,7 @@ type
     StartDateIndex : LongInt;
     EndDateIndex   : LongInt;
     Items          : TStrings;
+    VariablesOutputIndex : array[0..MAXCOLS] of Integer;              //SWMM-HEAT
     Variables      : array[0..MAXCOLS] of Integer;
     ReportItems    : array[0..MAXCOLS] of TReportItem;
     ItemCount      : Integer;
@@ -618,10 +619,12 @@ procedure GetObjVarNames(const ObjType: Integer; const VarIndex: Integer;
 //-----------------------------------------------------------------------------
 var
   K: Integer;
+  Npollut: Integer; //SWMM-HEAT
 begin
   ObjName  := '';
   VarName  := '';
   VarUnits := '';
+  NPollut  := Project.PollutNames.Count;
   if ObjType = SUBCATCHMENTS then
   begin
     ObjName := TXT_SUBCATCH;
@@ -640,6 +643,12 @@ begin
   else if ObjType = NODES then
   begin
     ObjName := TXT_NODE;
+    if (VarIndex >= NODEQUAL + NPollut)  then                        //SWMM-HEAT
+    begin                                                            //SWMM-HEAT
+       VarName := NodeVariable[VarIndex - NPollut + 1].Name;         //SWMM-HEAT
+       VarUnits := NodeUnits[VarIndex - NPollut + 1].Units;          //SWMM-HEAT
+    end                                                              //SWMM-HEAT
+    else
     if (VarIndex >= NODEQUAL) then
     begin
       K := VarIndex - NODEQUAL;
@@ -655,6 +664,12 @@ begin
   else if ObjType = LINKS then
   begin
     ObjName := TXT_LINK;
+    if (VarIndex >= LINKQUAL + NPollut)  then                          //SWMM-HEAT
+    begin                                                             //SWMM-HEAT
+       VarName := LinkVariable[VarIndex - NPollut + 1].Name;          //SWMM-HEAT
+       VarUnits := LinkUnits[VarIndex - NPollut + 1].Units;           //SWMM-HEAT
+    end                                                               //SWMM-HEAT
+    else
     if (VarIndex >= LINKQUAL) then
     begin
       K := VarIndex - LINKQUAL;

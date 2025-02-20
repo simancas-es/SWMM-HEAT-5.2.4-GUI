@@ -48,6 +48,7 @@ procedure UpdateNodeName(const OldName: String; const NewName: String);
 
 procedure UpdatePatternName(const OldName: String; const NewName: String);
 procedure UpdatePollutName(const OldName: String; const NewName: String);
+procedure UpdateWTemperatureName(const OldName: String; const NewName: String); //SWMM-HEAT
 
 procedure UpdateRainGageName(const OldName: String; const NewName: String);
 
@@ -207,6 +208,100 @@ begin
   end;
 end;
 
+procedure UpdateWTemperatureName(const OldName: String; const NewName: String);
+//-----------------------------------------------------------------------------
+//  SWMM-HEAT: Replaces all references to WTEMPERATURE OldName with NewName
+//-----------------------------------------------------------------------------
+var
+  I: Integer;
+  J: Integer;
+  K: Integer;
+  N: Integer;
+  P: TWTemperature;
+  U: TLanduse;
+  aNode: TNode;
+  IsBlank: Boolean;
+begin
+  // Change name for WTEMPERATURE object lists
+  IsBlank := (Length(NewName) = 0);
+  N := Project.Lists[WTEMPERATURE].Count-1;
+  for I := 0 to N do
+  begin
+    P := TWTemperature(Project.Lists[WTEMPERATURE].Objects[I]);
+  end;
+
+  // Change name used with Landuse nonpoint source objects
+  for J := 0 to Project.Lists[LANDUSE].Count-1 do
+  begin
+    U := TLanduse(Project.Lists[LANDUSE].Objects[J]);
+    for I := 0 to N do
+    begin
+      if SameText(U.NonPointSources[I], OldName) then
+        U.NonpointSources[I] := NewName;
+    end;
+  end;
+
+  // Change name used with Node's Treatment & Inflows properties
+  for I := JUNCTION to STORAGE do
+  begin
+    N := Project.Lists[I].Count - 1;
+    for J := 0 to N do
+    begin
+      aNode := Project.GetNode(I, J);
+      with aNode.Treatment do
+      begin
+        K := IndexOfName(OldName);
+        if K >= 0 then
+        begin
+          if IsBlank then Delete(K)
+          else Strings[K] := NewName + '=' + ValueFromIndex[K];
+        end;
+      end;
+      with aNode.DXInflow do
+      begin
+        K := IndexOfName(OldName);
+        if K >= 0 then
+        begin
+          if IsBlank then Delete(K)
+          else Strings[K] := NewName + '=' + ValueFromIndex[K];
+        end;
+      end;
+      with aNode.DWInflow do
+      begin
+        K := IndexOfName(OldName);
+        if K >= 0 then
+        begin
+          if IsBlank then Delete(K)
+          else Strings[K] := NewName + '=' + ValueFromIndex[K];
+        end;
+      end;
+    end;
+  end;
+
+  // Change name used with Subcatchment's initial Loadings
+  for J := 0 to Project.Lists[SUBCATCH].Count - 1 do
+  begin
+    with Project.GetSubcatch(SUBCATCH, J).Loadings do
+    begin
+      K := IndexOfName(OldName);
+      if K >= 0 then
+        if IsBlank then Delete(K)
+        else Strings[K] := NewName + '=' + Values[OldName];
+    end;
+  end;
+
+//  // Change name associated with LID drain pollutant removals
+//  for J := 0 to Project.Lists[LID].Count-1 do
+//  begin
+//    with TLid(Project.Lists[LID].Objects[J]).DrainRemovals do
+//    begin
+//      K := IndexOfName(OldName);
+//      if K >= 0 then
+//        if IsBlank then Delete(K)
+//        else Strings[K] := NewName + '=' + Values[OldName];
+//    end;
+//  end;
+end;
 
 procedure UpdateTseriesName(const OldName: String; const NewName: String);
 //-----------------------------------------------------------------------------

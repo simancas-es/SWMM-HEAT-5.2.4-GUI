@@ -351,6 +351,7 @@ begin
 
     27: Result := POLLUTANT;
     28: Result := LANDUSE;
+    29: Result := WTEMPERATURE;
 
     30: Result := CONTROLCURVE;
     31: Result := DIVERSIONCURVE;
@@ -406,6 +407,7 @@ begin
 
     POLLUTANT:   Result := 27;
     LANDUSE:     Result := 28;
+    WTEMPERATURE:Result := 29;
 
     CONTROLCURVE:   Result := 30;
     DIVERSIONCURVE: Result := 31;
@@ -546,7 +548,7 @@ begin
 
   // Disable New, Delete, Up, Down & Sort buttons for
   // Notes, Controls, Climatology & Options
-  if ObjType in [NOTES, CONTROL, CLIMATE, OPTION] then
+  if ObjType in [NOTES, CONTROL, CLIMATE, OPTION, WTEMPERATURE] then      //SWMM-HEAT
   begin
     MainForm.BrowserBtnNew.Enabled := False;
     MainForm.BrowserBtnDelete.Enabled := False;
@@ -743,6 +745,7 @@ begin
       Items.Add(NodeVariable[I].Name);
     for I := 0 to N do
       Items.Add(Project.PollutNames[I]);
+    Items.Add(NodeVariable[NODEWTEMP].Name);                         //SWMM-HEAT
     if OldNodeVar < Items.Count
     then ItemIndex := OldNodeVar
     else ItemIndex := 0;
@@ -755,6 +758,7 @@ begin
       Items.Add(LinkVariable[I].Name);
     for I := 0 to N do
       Items.Add(Project.PollutNames[I]);
+    Items.Add(LinkVariable[LINKWTEMP].Name);                          //SWMM-HEAT
     if OldLinkVar < Items.Count
     then ItemIndex := OldLinkVar
     else ItemIndex := 0;
@@ -827,13 +831,16 @@ function  GetIndexOfVar(const ObjType: Integer; const S: String): Integer;
 //-----------------------------------------------------------------------------
 //  Finds the index of a view variable given its name.
 //-----------------------------------------------------------------------------
+var
+ index : Integer;
 begin
   case ObjType of
-  SUBCATCHMENTS: Result := MainForm.SubcatchViewBox.Items.IndexOf(S);
-  NODES: Result := MainForm.NodeViewBox.Items.IndexOf(S);
-  LINKS: Result := MainForm.LinkViewBox.Items.IndexOf(S);
-  else Result := -1;
+  SUBCATCHMENTS: index := MainForm.SubcatchViewBox.Items.IndexOf(S);
+  NODES: index := MainForm.NodeViewBox.Items.IndexOf(S);
+  LINKS: index := MainForm.LinkViewBox.Items.IndexOf(S);
+  else index := -1;
   end;
+  Result := index;
 end;
 
 

@@ -245,7 +245,8 @@ begin
      if ReportType = TABLEBYOBJECT
      then K := C - Grid1.FixedCols
      else K := 0;
-     V := Variables[K];
+     V := VariablesOutputIndex[K];                                 //SWMM-HEAT
+
 
      // Determine which object to retrieve a value for
      if ReportType = TABLEBYVARIABLE
@@ -264,6 +265,7 @@ begin
      begin
        I := ObjTypes[K];
        J := ObjIndexes[K];
+
        case ObjectType of
        SUBCATCHMENTS: Result := Uoutput.GetSubcatchValStr(V, N, J);
        NODES:         Result := Uoutput.GetNodeValStr(V, N, I, J);
@@ -289,6 +291,7 @@ begin
     if VariableCount >= MAXCOLS then Table.VariableCount := MAXCOLS;
     for I := 0 to Table.VariableCount-1 do
     begin
+      Table.VariablesOutputIndex[I] := Variables[I];
       Table.Variables[I] := Variables[I];
     end;
     Table.ObjectType := ObjectType;
@@ -413,9 +416,14 @@ var
   ObjName: String;
   VarName: String;
   VarUnits: String;
+  VarIndex: Integer;
+  ObjType: Integer;
+
 begin
-  Uglobals.GetObjVarNames(Table.ObjectType, Table.Variables[V], ObjName,
-    VarName, VarUnits);
+  VarIndex := Table.Variables[V];
+  ObjType  := Table.ObjectType;
+
+  Uglobals.GetObjVarNames(ObjType, VarIndex, ObjName, VarName, VarUnits);
   if Length(VarUnits) > 0 then VarName := VarName + #13 + '(' + VarUnits + ')';
   Result := VarName;
 end;

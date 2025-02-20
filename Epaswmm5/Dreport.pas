@@ -634,7 +634,11 @@ begin
           if Checked[I] then
           begin
             if ObjectType = SYS then Variables[VariableCount] := I
-            else Variables[VariableCount] :=
+            else
+
+             VariablesOutputIndex[VariableCount] :=                  //SWMM-HEAT
+              Ubrowser.GetIndexOfVar(ObjectType, Items[I]);
+             Variables[VariableCount] :=
               Ubrowser.GetIndexOfVar(ObjectType, Items[I]);
             Inc(VariableCount);
             if VariableCount > MAXCOLS then break;

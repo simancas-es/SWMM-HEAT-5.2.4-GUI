@@ -12,12 +12,10 @@ object InflowsForm: TInflowsForm
   Font.Name = 'Segoe UI'
   Font.Style = []
   KeyPreview = True
-  OldCreateOrder = False
   Position = poMainFormCenter
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   OnShow = FormShow
-  PixelsPerInch = 96
   TextHeight = 15
   object PageControl1: TPageControl
     Left = 10
@@ -39,14 +37,14 @@ object InflowsForm: TInflowsForm
       object Label2: TLabel
         Left = 16
         Top = 171
-        Width = 59
+        Width = 60
         Height = 15
         Caption = 'Time Series'
       end
       object Label3: TLabel
         Left = 16
         Top = 237
-        Width = 60
+        Width = 61
         Height = 15
         Caption = 'Inflow Type'
       end
@@ -268,7 +266,7 @@ object InflowsForm: TInflowsForm
       object Label10: TLabel
         Left = 16
         Top = 140
-        Width = 72
+        Width = 73
         Height = 15
         Caption = 'Time Patterns'
       end

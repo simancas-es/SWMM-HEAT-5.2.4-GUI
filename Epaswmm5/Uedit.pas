@@ -71,7 +71,8 @@ uses
   Dtsect,  Dtseries, Dcurve, Dcontrol, Dsubland, Dpattern, Dxsect, Dgwater,
   Dinflows, Dclimate, Dsnow, Dnotes, Dunithyd, Dtreat, Ubrowser, Uoutput,
   Uupdate, Uvalidate, Dreporting, Devents, Dculvert, Dstorage, Dstreet,
-  Uinlet, Dinlet, DinletUsage, Ulid, PropEdit;
+  Uinlet, Dinlet, DinletUsage, Ulid, PropEdit,
+  DWTemperature;                                                     //SWMM-HEAT
 
 const
   TXT_VALUE = 'Value';
@@ -80,10 +81,12 @@ const
   TXT_RAIN_FILE_FILTER = 'Rain data files (*.DAT)|*.DAT|All files|*.*';
   TXT_RAIN_FILE_EXTEN = 'dat';
   MSG_NOPOLLUTS  = 'No pollutants have been defined yet for this project.';
+  MSG_NOWTEMPS  = 'No WTEMPERATURE objects have been defined yet for this project.';  //SWMM-HEAT
   MSG_NOLANDUSES = 'No land uses have been defined yet for this project.';
 
 procedure EditClimatology(const I: Integer); forward;
 procedure EditPollutant(const I: Integer); forward;
+procedure EditWTemperature(const I: Integer); forward;                    //SWMM-HEAT
 procedure EditLanduse(const I: Integer); forward;
 procedure EditAquifer(const I: Integer); forward;
 procedure SetConduitDepthField(L: TLink); forward;
@@ -333,6 +336,7 @@ begin
     // Call the object's editor with no reference to any existing item
     // which will cause a new item to be created
     POLLUTANT:     EditPollutant(-1);
+    WTEMPERATURE:  EditWTemperature(-1);
     LANDUSE:       EditLanduse(-1);
     AQUIFER:       EditAquifer(-1);
     SNOWPACK:      EditSnowpack(-1);
@@ -834,6 +838,75 @@ begin
 
     // If editing cancelled, then delete new pollutant if created
     else if I < 0 then Pollut.Free;
+  finally
+    Free;
+  end;
+end;
+
+
+procedure EditWTemperature(const I: Integer);
+//-----------------------------------------------------------------------------
+//  SWMM-HEAT: Edits existing WTEMPERATURE object with index I in data base
+//  (or creates a new WTEMPERATURE object if index < 0).
+//-----------------------------------------------------------------------------
+var
+  OldName : String;
+  NewName : String;
+  WTemp  : TWTemperature;
+  WTemperatureForm: TWTemperatureForm;
+begin
+  // If index >= 0 get corresponding WTEMPERATURE object object
+  if I >= 0 then
+  begin
+    WTemp := TWTemperature(Project.Lists[WTEMPERATURE].Objects[I]);
+    OldName := Project.Lists[WTEMPERATURE].Strings[I];
+  end
+
+  // Otherwise create a new WTEMPERATURE object object
+  else
+  begin
+    WTemp := TWTemperature.Create;
+    OldName := '';
+  end;
+
+  // Edit the WTEMPERATURE object's properties
+  WTemperatureForm := TWTemperatureForm.Create(Application);
+  with WTemperatureForm do
+  try
+    // Set properties in the WTEMPERATURE object Editor form
+    SetData(I, WTemp);
+
+    // If valid WTEMPERATURE object data entered
+    if (ShowModal = mrOK) and HasChanged then
+    begin
+      // Retrieve properties from form
+      GetData(NewName, WTemp);
+
+      // For new WTEMPERATURE object, add it to data base
+      if I < 0 then
+      begin
+        Project.Lists[WTEMPERATURE].AddObject(NewName, WTemp);
+        Ubrowser.BrowserAddItem(WTEMPERATURE, Project.Lists[WTEMPERATURE].Count-1);
+      end
+
+      // Otherwise for existing WTEMPERATURE object
+      else
+      begin
+        // If name changed, then change all references to name in other objects
+        if not SameText(OldName, NewName) then
+        begin
+          Uupdate.UpdateWTemperatureName(OldName, NewName);
+          Project.Lists[WTEMPERATURE].Strings[I] := NewName;
+        end;
+
+        // Update WTEMPERATURE object display in Browser panel
+        Ubrowser.BrowserUpdate(WTEMPERATURE, I);
+      end;
+      MainForm.SetChangeFlags;
+    end
+
+    // If editing cancelled, then delete new WTEMPERATURE object if created
+    else if I < 0 then WTemp.Free;
   finally
     Free;
   end;
@@ -1853,6 +1926,7 @@ begin
     CLIMATE:     EditClimatology(EditorIndex);
     POLLUTANT:   EditPollutant(EditorIndex);
     LANDUSE:     EditLanduse(EditorIndex);
+    WTEMPERATURE:EditWTemperature(EditorIndex);
     AQUIFER:     EditAquifer(EditorIndex);
     SNOWPACK:    EditSnowpack(EditorIndex);
     PATTERN:     EditPattern(EditorIndex);

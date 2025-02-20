@@ -44,7 +44,7 @@ implementation
 {$R *.dfm}
 
 const
-  S: array[0..25] of String =
+  S: array[0..26] of String =
     (
      ' Raingages              ',
      ' Subcatchments          ',
@@ -66,6 +66,7 @@ const
      ' Control Rules          ',
      ' Pollutants             ',
      ' Land Uses              ',
+     ' Water Temperature      ',                                       //SWMM-HEAT
      ' Time Series Inflows    ',
      ' Dry Weather Inflows    ',
      ' Groundwater Inflows    ',
@@ -113,14 +114,15 @@ begin
 //    Cells[1,18] := '';
     Cells[1,18] := IntToStr(Project.Lists[POLLUTANT].Count);
     Cells[1,19] := IntToStr(Project.Lists[LANDUSE].Count);
+    Cells[1,20] := IntToStr(Project.Lists[WTEMPERATURE].Count);      //SWMM-HEAT
     GetInflowsCount();
 //    Cells[1,24] := '';
-    Cells[1,20] := IntToStr(TSFcount);
-    Cells[1,21] := IntToStr(DWFcount);
-    Cells[1,22] := IntToStr(GWFcount);
-    Cells[1,23] := IntToStr(IIFcount);
-    Cells[1,24] := IntToStr(LIDcount);
-    Cells[1,25] := IntToStr(TUcount);
+    Cells[1,21] := IntToStr(TSFcount);
+    Cells[1,22] := IntToStr(DWFcount);
+    Cells[1,23] := IntToStr(GWFcount);
+    Cells[1,24] := IntToStr(IIFcount);
+    Cells[1,25] := IntToStr(LIDcount);
+    Cells[1,26] := IntToStr(TUcount);
   end;
 end;
 

@@ -61,6 +61,7 @@ uses
   Dprevplot in 'Dprevplot.pas' {PreviewPlotForm},
   Dstats in 'Dstats.pas' {StatsSelectForm},
   Dpollut in 'Dpollut.pas' {PollutantForm},
+  DWTemperature in 'DWTemperature.pas' {WTemperatureForm},
   Daquifer in 'Daquifer.pas' {AquiferForm},
   Dgwater in 'Dgwater.pas' {GroundWaterForm},
   Dinflows in 'Dinflows.pas' {InflowsForm},
