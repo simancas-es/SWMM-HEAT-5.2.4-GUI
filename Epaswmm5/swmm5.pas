@@ -34,7 +34,7 @@ function   swmm_getWarnings; external SWMM5_DLL;
 
 implementation
 uses
-    Classes, SysUtils, Windows, swmm5_validate;
+    Classes, SysUtils, Windows;
 
 initialization
     SetDllDirectory(PChar(ExtractFilePath(ParamStr(0))));
