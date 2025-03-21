@@ -657,8 +657,8 @@ const
      '12',            // 1 - Crain.                                      SWWM-HEAT
      '12',            // 2 - Cgw.                                        SWWM-HEAT
      '12',            // 3 - Crdii.                                     SWWM-HEAT
-     '12',            // 5 - DWF concen.                                 SWWM-HEAT
      '0',            // 4 - Kdeca.                                      SWWM-HEAT
+     '12',            // 5 - DWF concen.                                 SWWM-HEAT
      '12');           // 6 - Cinit                                      SWWM-HEAT
 
 

@@ -81,8 +81,8 @@ var
      (Name: 'Rain Temp..'; Style: esEdit;       Mask: emPosNumber;  Length: 0),
      (Name: 'GW Temp.';   Style: esEdit;       Mask: emPosNumber;  Length: 0),
      (Name: 'I&I Temp.';  Style: esEdit;       Mask: emPosNumber;  Length: 0),
-     (Name: 'DWF Temp.';  Style: esEdit;       Mask: emPosNumber;  Length: 0),
      (Name: 'Decay Coeff.'; Style: esEdit;       Mask: emPosNumber;  Length: 0),
+     (Name: 'DWF Temp.';  Style: esEdit;       Mask: emPosNumber;  Length: 0),
      (Name: 'Init. Temp.';Style: esEdit;       Mask: emPosNumber;  Length: 0)
      );
 
