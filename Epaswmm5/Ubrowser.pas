@@ -353,18 +353,18 @@ begin
     28: Result := LANDUSE;
     29: Result := WTEMPERATURE;
 
-    30: Result := CONTROLCURVE;
-    31: Result := DIVERSIONCURVE;
-    32: Result := PUMPCURVE;
-    33: Result := RATINGCURVE;
-    34: Result := SHAPECURVE;
-    35: Result := STORAGECURVE;
-    36: Result := TIDALCURVE;
-    37: Result := WEIRCURVE;
+    31: Result := CONTROLCURVE;
+    32: Result := DIVERSIONCURVE;
+    33: Result := PUMPCURVE;
+    34: Result := RATINGCURVE;
+    35: Result := SHAPECURVE;
+    36: Result := STORAGECURVE;
+    37: Result := TIDALCURVE;
+    38: Result := WEIRCURVE;
 
-    38: Result := TIMESERIES;
-    39: Result := PATTERN;
-    40: Result := MAPLABEL;
+    39: Result := TIMESERIES;
+    40: Result := PATTERN;
+    41: Result := MAPLABEL;
 
     else Result := -1;
   end;
@@ -409,18 +409,18 @@ begin
     LANDUSE:     Result := 28;
     WTEMPERATURE:Result := 29;
 
-    CONTROLCURVE:   Result := 30;
-    DIVERSIONCURVE: Result := 31;
-    PUMPCURVE:      Result := 32;
-    RATINGCURVE:    Result := 33;
-    SHAPECURVE:     Result := 34;
-    STORAGECURVE:   Result := 35;
-    TIDALCURVE:     Result := 36;
-    WEIRCURVE:      Result := 37;
+    CONTROLCURVE:   Result := 31;
+    DIVERSIONCURVE: Result := 32;
+    PUMPCURVE:      Result := 33;
+    RATINGCURVE:    Result := 34;
+    SHAPECURVE:     Result := 35;
+    STORAGECURVE:   Result := 36;
+    TIDALCURVE:     Result := 37;
+    WEIRCURVE:      Result := 38;
 
-    TIMESERIES:   Result := 38;
-    PATTERN:      Result := 39;
-    MAPLABEL:     Result := 40;
+    TIMESERIES:   Result := 39;
+    PATTERN:      Result := 40;
+    MAPLABEL:     Result := 41;
 
     else         Result := 0;
   end;
