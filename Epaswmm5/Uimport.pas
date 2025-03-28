@@ -945,6 +945,7 @@ var
   ID   : String;
   N    : Integer;
   X    : Single;
+  offset : Integer; //SWMM-HEAT offset to keep compatibility with 5.2.4b SWMM-HEAT
 begin
   Result := 0;
   N := 6;
@@ -986,18 +987,42 @@ begin
       aNode.Data[STORAGE_SURCHARGE_DEPTH_INDEX] := TokList[N];
       // Evaporation factor
       if Ntoks > N+1 then aNode.Data[STORAGE_EVAP_FACTOR_INDEX] := TokList[N+1];
+
+      //SWMM-HEAT Compatibility with 5.2.4 inputs if Storage has Infil data
+      //It is impossible to know whether the data belongs to Infil or SWMM-HEAT
+      //since both are optional. We force to specify all parameter groups then.
+      //If there is no exfil we must input 0 0 0 as exfil parameters.
+      offset := 0;
       // Constant seepage rate
-      if Ntoks = N+3 then
+      if (Ntoks = (N + 2 + 1)) then
       begin
-        aNode.InfilData[STORAGE_KSAT_INDEX] := TokList[N+2];
+        aNode.InfilData[STORAGE_KSAT_INDEX] := TokList[N + 2];
       end
       // Green-Ampt seepage parameters
-      else if Ntoks = N+5 then
+      else if (Ntoks > (N + 2 + 1)) then
       begin
-        aNode.InfilData[STORAGE_SUCTION_INDEX] := TokList[N+2];
-        aNode.InfilData[STORAGE_KSAT_INDEX] := TokList[N+3];
-        aNode.InfilData[STORAGE_IMDMAX_INDEX] := TokList[N+4];
+        aNode.InfilData[STORAGE_SUCTION_INDEX] := TokList[N + 2];
+        aNode.InfilData[STORAGE_KSAT_INDEX] := TokList[N + 3];
+        aNode.InfilData[STORAGE_IMDMAX_INDEX] := TokList[N + 4];
+        offset := 3;
       end;
+
+      if (offset > 0) and (Ntoks > (N + 2 + offset))  then
+        begin
+          aNode.Data[STORAGE_THICKNESS_INDEX]   := TokList[N + 2 + offset];        //SWMM-HEAT
+          aNode.Data[STORAGE_WALLCONDUCT_INDEX] := TokList[N + 3 + offset];        //SWMM-HEAT
+          aNode.Data[STORAGE_SOILCONDUCT_INDEX] := TokList[N + 4 + offset];        //SWMM-HEAT
+          aNode.Data[STORAGE_SOILDENSITY_INDEX] := TokList[N + 5 + offset];        //SWMM-HEAT
+          aNode.Data[STORAGE_SOILHEATCAP_INDEX] := TokList[N + 6 + offset];        //SWMM-HEAT
+        end;
+      if (offset > 0) and (Ntoks > (N + 2 + offset + 5)) then
+        begin
+          aNode.Data[STORAGE_AIRTPATTERN_INDEX] := TokList[N + 7 + offset];       //SWMM-HEAT
+          aNode.Data[STORAGE_SOILTPATTERN_INDEX]:= TokList[N + 8 + offset];       //SWMM-HEAT
+        end;
+
+
+
     end;
     Uutils.GetSingle(aNode.InfilData[STORAGE_KSAT_INDEX ], X);
     if (X > 0) then aNode.Data[STORAGE_SEEPAGE_INDEX] := 'YES'

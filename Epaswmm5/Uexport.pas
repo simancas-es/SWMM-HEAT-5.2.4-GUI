@@ -975,14 +975,18 @@ begin
   Line := ';;Name          ' + Tab + 'Elev.   ' + Tab + 'MaxDepth  ';
   Line := Line + Tab + 'InitDepth ' + Tab + 'Shape     ';
   Line := Line + Tab + 'Curve Type/Params           ';
-  Line := Line + Tab + 'SurDepth ' + Tab + 'Fevap   ' + Tab + 'Psi     ';
+  Line := Line + Tab + 'SurDepth ' + Tab + 'Fevap   ' + Tab + 'Psi      ';
   Line := Line + Tab + 'Ksat    ' + Tab + 'IMD     ';
+  Line := Line + Tab + 'Thick     ' + Tab + 'Tcp       ' + Tab + 'Tcs       ';                      //SWMM-HEAT
+  Line := Line + Tab + 'Ds        ' + Tab + 'Cps       ' + Tab + 'Atp       '+ Tab + 'Stp       ';  //SWMM-HEAT
   S.Add(Line);
   Line := ';;--------------' + Tab + '--------' + Tab + '----------';
   Line := Line + Tab + '-----------' + Tab + '----------';
   Line := Line + Tab + '----------------------------';
-  Line := Line + Tab + '---------' + Tab + '--------' + Tab + '        ';
+  Line := Line + Tab + '---------' + Tab + '--------' + Tab + '---------';
   Line := Line + Tab + '--------' + Tab + '--------';
+  Line := Line + Tab + '----------' + Tab + '----------' + Tab + '----------';                     //SWMM-HEAT
+  Line := Line + Tab + '----------' + Tab + '----------' + Tab + '----------'+ Tab + '----------'; //SWMM-HEAT
   S.Add(Line);
   with Project.Lists[STORAGE] do
     for I := 0 to Count-1 do
@@ -1006,11 +1010,21 @@ begin
       Line := Line + Tab + Format('%-8s ', [N.Data[STORAGE_SURCHARGE_DEPTH_INDEX]]);
       Line := Line + Tab + Format('%-8s', [N.Data[STORAGE_EVAP_FACTOR_INDEX]]);
       Uutils.GetSingle(N.InfilData[STORAGE_KSAT_INDEX ], X);
-      if X > 0 then
+//      if X > 0 then  //SWMM-HEAT Force to store the three parameters for compatibility
       begin
         Line := Line + Tab + Format('%-8s', [N.InfilData[STORAGE_SUCTION_INDEX]]);
         Line := Line + Tab + Format('%-8s', [N.InfilData[STORAGE_KSAT_INDEX]]);
         Line := Line + Tab + Format('%-8s', [N.InfilData[STORAGE_IMDMAX_INDEX]]);
+      end;
+
+      begin
+        Line := Line + Tab + Format('%-8s', [N.Data[STORAGE_THICKNESS_INDEX]]);   //SWMM-HEAT
+        Line := Line + Tab + Format('%-8s', [N.Data[STORAGE_WALLCONDUCT_INDEX]]);   //SWMM-HEAT
+        Line := Line + Tab + Format('%-8s', [N.Data[STORAGE_SOILCONDUCT_INDEX]]);   //SWMM-HEAT
+        Line := Line + Tab + Format('%-8s', [N.Data[STORAGE_SOILDENSITY_INDEX]]);   //SWMM-HEAT
+        Line := Line + Tab + Format('%-8s', [N.Data[STORAGE_SOILHEATCAP_INDEX]]);   //SWMM-HEAT
+        Line := Line + Tab + Format('%-8s', [N.Data[STORAGE_AIRTPATTERN_INDEX]]);   //SWMM-HEAT
+        Line := Line + Tab + Format('%-8s', [N.Data[STORAGE_SOILTPATTERN_INDEX]]);   //SWMM-HEAT
       end;
       S.Add(Line);
     end;

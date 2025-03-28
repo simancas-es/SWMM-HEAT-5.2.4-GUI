@@ -21,7 +21,7 @@ const
   MISSING          = -1.0e10;  //Missing value
   MAXGAGEPROPS     = 15;       //Max. index for raingage data array
   MAXSUBCATCHPROPS = 27;       //Max. index for subcatch data array
-  MAXNODEPROPS     = 21;       //Max. index for node data array
+  MAXNODEPROPS     = 28;       //Max. index for node data array
   MAXLINKPROPS     = 32;       //Max. index for link data array
   MAXINFILPROPS    = 5;        //Max. index for infil. data array
   MAXPOLLUTPROPS   = 9;        //Max. index for pollutant data array
@@ -206,6 +206,14 @@ const
   STORAGE_SUCTION_INDEX      = 0;
   STORAGE_KSAT_INDEX         = 1;
   STORAGE_IMDMAX_INDEX       = 2;
+
+  STORAGE_THICKNESS_INDEX    = 18;
+  STORAGE_WALLCONDUCT_INDEX  = 19;
+  STORAGE_SOILCONDUCT_INDEX  = 20;
+  STORAGE_SOILDENSITY_INDEX  = 21;
+  STORAGE_SOILHEATCAP_INDEX  = 22;
+  STORAGE_AIRTPATTERN_INDEX  = 23;
+  STORAGE_SOILTPATTERN_INDEX = 24;
 
 //-----------------------
 // Conduit property codes

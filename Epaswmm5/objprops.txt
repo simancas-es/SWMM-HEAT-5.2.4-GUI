@@ -414,7 +414,7 @@ const
       (' (ft)',' (m)'), ('','')
     );
 
-  DefStorage: array[0..17] of String =
+  DefStorage: array[0..24] of String =
     ('',           //0 - ID
      '',           //1 - X
      '',           //2 - Y
@@ -432,7 +432,14 @@ const
      '1000',       //14 - Coeff0
      '0',          //15 - Coeff1
      '0',          //16 - Coeff2
-     ''            //17 - Storage Curve Table
+     '',            //17 - Storage Curve Table
+     '0.1',      //18 - Thickness                 SWMM-HEAT
+     '2.3',      //19 - Wall Conductivity         SWMM-HEAT
+     '0.7',      //20 - Soil Conductivity         SWMM-HEAT
+     '350',      //21 - Soil density              SWMM-HEAT
+     '350',      //22 - Soil heat capacity        SWMM-HEAT
+     'DEFAULT_ATP_CELSIUS',         //23 - Air Temperature Pattern  SWMM-HEAT
+     'DEFAULT_STP_CELSIUS'        //24 - Soil Temperature Pattern SWMM-HEAT
      );
 
   StoragePropUnits: array [0..13, 0..1] of String =
@@ -844,7 +851,7 @@ var
      (Name:'  Coefficient';     Style:esEdit;      Mask:emPosNumber; Length:0)
     );
 
-  StorageProps: array [0..13] of TPropRecord =
+  StorageProps: array [0..24] of TPropRecord =
     ((Name:'Name';              Style:esEdit;      Mask:emNoSpace;     Length:0),
      (Name:'X-Coordinate';      Style:esEdit;      Mask:emNumber;      Length:0),
      (Name:'Y-Coordinate';      Style:esEdit;      Mask:emNumber;      Length:0),
@@ -858,7 +865,24 @@ var
      (Name:'Surcharge Depth';   Style:esEdit;      Mask:emPosNumber;   Length:0),
      (Name:'Evap. Factor';      Style:esEdit;      Mask:emPosNumber;   Length:0),
      (Name:'Seepage Loss';      Style:esButton;    Mask:emNone;        Length:0),
-     (Name:'Storage Shape';     Style:esButton;    Mask:emNone;        Length:0)
+     (Name:'Storage Shape';     Style:esButton;    Mask:emNone;        Length:0),
+
+     (Name:'Functional Coeff 0';     Style:esEdit;    Mask:emPosNumber;),
+     (Name:'Functional Coeff 1';     Style:esEdit;    Mask:emPosNumber;),
+     (Name:'Functional Coeff 2';     Style:esEdit;    Mask:emPosNumber;),
+     (Name:'Func. Geometry Table';     Style:esComboEdit;    Mask:emNoSpace;        Length:0;
+     List:''),
+
+     //SWMM-HEAT
+     (Name:'(HEAT) Thickness';        Style:esEdit;      Mask:emPosNumber),
+     (Name:'(HEAT) Wall Thermal Conductivity';        Style:esEdit;      Mask:emPosNumber),
+     (Name:'(HEAT) Soil Thermal Conductivity';        Style:esEdit;      Mask:emPosNumber),
+     (Name:'(HEAT) Soil Density';        Style:esEdit;      Mask:emPosNumber),
+     (Name:'(HEAT) Soil Heat Capacity';        Style:esEdit;      Mask:emPosNumber),
+     (Name:'(HEAT) Sewer Air Temp. Pattern';        Style:esComboEdit;      Mask:emNoSpace; Length:0;
+     List:''),
+     (Name:'(HEAT) Sewer Soil Temp. Pattern';        Style:esComboEdit;      Mask:emNoSpace; Length:0;
+     List:'')
     );
 
   ConduitProps: array [0..32] of TPropRecord =
@@ -1101,7 +1125,7 @@ var
      'Discharge coefficient for a WEIR divider'
     );
 
-  StorageHint: array[0..13] of String =
+  StorageHint: array[0..24] of String =
     ('User-assigned name of storage unit',
      'X coordinate of storage unit on study area map',
      'Y coordinate of storage unit on study area map',
@@ -1118,7 +1142,18 @@ var
      'Click to provide soil properties that determine seepage loss ' +
      'through the bottom and sloped sides of the storage unit',
      'Click to specify the shape of the unit by relating pool surface area ' +
-     'to water level'
+     'to water level',
+     'Functional geometry coefficient 0.',
+     'Functional geometry coefficient 1.',
+     'Functional geometry coefficient 2.',
+     'Functional geometry table.',
+     'Wall thickness m. Used in the SWMM-HEAT Module.',                                        //SWMM-HEAT
+     'Wall Thermal Conductivity W·m^(−1)·K^(−1). Used in the SWMM-HEAT Module.',               //SWMM-HEAT
+     'Soil Thermal Conductivity W·m^(−1)·K^(−1). Used in the SWMM-HEAT Module.',              //SWMM-HEAT
+     'Soil Density kg·m^(−3). Used in the SWMM-HEAT Module.',                                  //SWMM-HEAT
+     'Soil Specific Heat Capacity J·kg^(−1)·K^(−1). Used in the SWMM-HEAT Module.',            //SWMM-HEAT
+     'Sewer Air Temperature Pattern. Used in the SWMM-HEAT Module.',                             //SWMM-HEAT
+     'Sewer Soil Temperature Pattern. Used in the SWMM-HEAT Module.'                             //SWMM-HEAT
     );
 
   ConduitHint: array[0..32] of String =

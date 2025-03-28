@@ -341,8 +341,7 @@ begin
     AQUIFER:       EditAquifer(-1);
     SNOWPACK:      EditSnowpack(-1);
     LID:           Ulid.EditLID(-1);
-    CONTROLCURVE..
-    WEIRCURVE:     EditCurve(ObjType, -1);
+    CONTROLCURVE..WEIRCURVE:     EditCurve(ObjType, -1);
     TIMESERIES:    EditTimeseries(-1);
     HYDROGRAPH:    EditHydrograph(-1);
     PATTERN:       EditPattern(-1);
@@ -539,9 +538,11 @@ begin
       JUNCTION:   LastIndex := High(JunctionProps);
       OUTFALL:    LastIndex := High(OutfallProps);
       DIVIDER:    LastIndex := High(DividerProps);
-      STORAGE:    LastIndex := STORAGE_GEOMETRY_INDEX;
+      STORAGE:    LastIndex := High(StorageProps); //STORAGE_GEOMETRY_INDEX;  //SWMM-HEAT
       else        LastIndex := -1;
     end;
+
+
     for I := COMMENT_INDEX to LastIndex do PropList.Add(N.Data[I]);
   end;
 
@@ -566,6 +567,11 @@ begin
     STORAGE:
       begin
         PropEditForm.Editor.SetProps(StorageProps,  Project.PropList);
+
+        //SWMM-HEAT
+        StorageProps[STORAGE_ATABLE_INDEX].List := Project.Lists[STORAGECURVE].Text;
+        StorageProps[STORAGE_AIRTPATTERN_INDEX].List := Project.Lists[PATTERN].Text;
+        StorageProps[STORAGE_SOILTPATTERN_INDEX].List := Project.Lists[PATTERN].Text;
       end;
   end;
 end;
