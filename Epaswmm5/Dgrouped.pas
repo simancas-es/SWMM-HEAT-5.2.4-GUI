@@ -122,19 +122,29 @@ const
      JUNCTION_MAX_DEPTH_INDEX,        JUNCTION_INIT_DEPTH_INDEX,
      JUNCTION_SURCHARGE_DEPTH_INDEX,  JUNCTION_PONDED_AREA_INDEX);
 
-  EditedStorageProps: array[0..6] of Integer =
+  EditedStorageProps: array[0..13] of Integer =
     (TAG_INDEX,                       NODE_INVERT_INDEX,
      STORAGE_MAX_DEPTH_INDEX,         STORAGE_INIT_DEPTH_INDEX,
      STORAGE_SURCHARGE_DEPTH_INDEX,   STORAGE_EVAP_FACTOR_INDEX,
-     STORAGE_GEOMETRY_INDEX);
+     STORAGE_GEOMETRY_INDEX,
+     STORAGE_THICKNESS_INDEX, STORAGE_WALLCONDUCT_INDEX,               //SWMM-HEAT
+     STORAGE_SOILCONDUCT_INDEX, STORAGE_SOILDENSITY_INDEX,             //SWMM-HEAT
+     STORAGE_SOILHEATCAP_INDEX, STORAGE_AIRTPATTERN_INDEX,             //SWMM-HEAT
+     STORAGE_SOILTPATTERN_INDEX                                        //SWMM-HEAT
+     );
 
-  EditedConduitProps: array[0..11] of Integer =
+  EditedConduitProps: array[0..18] of Integer =
     (TAG_INDEX,               CONDUIT_SHAPE_INDEX,
      CONDUIT_GEOM1_INDEX,     CONDUIT_LENGTH_INDEX,
      CONDUIT_ROUGHNESS_INDEX, CONDUIT_INLET_HT_INDEX,
      CONDUIT_OUTLET_HT_INDEX, CONDUIT_INIT_FLOW_INDEX,
      CONDUIT_MAX_FLOW_INDEX,  CONDUIT_ENTRY_LOSS_INDEX,
-     CONDUIT_EXIT_LOSS_INDEX, CONDUIT_AVG_LOSS_INDEX);
+     CONDUIT_EXIT_LOSS_INDEX, CONDUIT_AVG_LOSS_INDEX,
+     CONDUIT_THICKNESS_INDEX, CONDUIT_PIPECONDUCT_INDEX,               //SWMM-HEAT
+     CONDUIT_SOILCONDUCT_INDEX, CONDUIT_SOILDENSITY_INDEX,             //SWMM-HEAT
+     CONDUIT_SOILHEATCAP_INDEX, CONDUIT_AIRTPATTERN_INDEX,             //SWMM-HEAT
+     CONDUIT_SOILTPATTERN_INDEX                                        //SWMM-HEAT
+     );
 
 var
   GWData: array[0..Dgwater.MAX_GW_PROPS] of String;
@@ -256,12 +266,17 @@ begin
       PropertyListbox.Items.Add(StorageProps[NODE_INVERT_INDEX].Name);
       for I := 2 to 6 do
         PropertyListBox.Items.Add(StorageProps[EditedStorageProps[I]].Name);
+      for I := STORAGE_THICKNESS_INDEX to STORAGE_SOILTPATTERN_INDEX do    //SWMM-HEAT
+        PropertyListbox.Items.Add(StorageProps[I].Name);                   //SWMM-HEAT
     end;
 
   4:  // Conduits
     begin
       for I := TAG_INDEX to CONDUIT_AVG_LOSS_INDEX do
         PropertyListbox.Items.Add(ConduitProps[I].Name);
+      for I := CONDUIT_THICKNESS_INDEX to CONDUIT_SOILTPATTERN_INDEX do    //SWMM-HEAT
+        PropertyListbox.Items.Add(ConduitProps[I].Name);                   //SWMM-HEAT
+
     end;
   end;
   PropertyListbox.ItemIndex := 0;
